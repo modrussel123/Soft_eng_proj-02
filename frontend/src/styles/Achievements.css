@@ -1,0 +1,135 @@
+.achievements-container {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #1B4332, #081C15 85%);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.achievements-card {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid #00A951;
+    background: rgba(27, 67, 50, 0.8);
+    animation: borderGlow 4s infinite alternate;
+    width: 100%;
+}
+
+.achievements-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #00A951;
+}
+
+.achievements-header h2 {
+    color: #00ff84;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(0, 255, 132, 0.5);
+    margin: 0;
+}
+
+.trophy-icon {
+    font-size: 2.5rem;
+    color: #00ff84;
+}
+
+.streak-section {
+    margin-bottom: 2rem;
+}
+
+.streak-card {
+    background: rgba(27, 67, 50, 0.6);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid #00A951;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.streak-icon {
+    font-size: 2.5rem;
+    color: #00ff84;
+}
+
+.streak-info h3 {
+    margin: 0 0 0.5rem 0;
+    color: #666;
+    font-size: 1rem;
+}
+
+.streak-count {
+    margin: 0;
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.workouts-section {
+    padding-top: 1rem;
+}
+
+.workouts-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+.dumbbell-icon {
+    color: #4a90e2;
+}
+
+.workouts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.workout-card {
+    background: rgba(27, 67, 50, 0.6);
+    padding: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid #00A951;
+    transition: transform 0.3s ease;
+}
+
+.workout-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.workout-card p {
+    margin: 0;
+    color: #ffffff; 
+}
+
+.loading-container {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+@keyframes borderGlow {
+    from {
+        box-shadow: 0 0 10px rgba(0, 255, 132, 0.2);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(0, 255, 132, 0.4);
+    }
+}
+

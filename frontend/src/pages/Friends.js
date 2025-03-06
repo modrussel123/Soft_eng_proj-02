@@ -1,0 +1,740 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { FaUser } from 'react-icons/fa'; 
+import { useNavigate } from 'react-router-dom';
+import "../styles/Friends.css";
+
+const NoProfilePicture = ({ name }) => (
+    <div className="no-profile-picture">
+        <FaUser 
+            size={40} 
+            style={{
+                color: '#00A951', 
+                stroke: '#00A951',
+                strokeWidth: '1px',
+                fill: '#00A951' 
+            }} 
+        />
+    </div>
+);
+
+const FriendCard = ({ friend, onRemove }) => {
+    return (
+        <div className="friend-card">
+            <div className="friend-profile">
+                {friend.profilePicture ? (
+                    <img 
+                        src={`http://localhost:5000/${friend.profilePicture}`}
+                        alt={`${friend.firstName}'s profile`}
+                        className="friend-profile-picture"
+                    />
+                ) : (
+                    <NoProfilePicture name={`${friend.firstName} ${friend.lastName}`} />
+                )}
+            </div>
+            <div className="friend-info">
+                {friend.isPrivate ? (
+                    <>
+                        <div className="friend-details">
+                            <div className="info-row">
+                                <span className="info-label">Email:</span>
+                                <span className="info-value">{friend.email}</span>
+                            </div>
+                        </div>
+                        <div className="private-profile-message">This profile is private</div> 
+                    </>
+                ) : (
+                    <div className="friend-details">
+                        <div className="info-row">
+                            <span className="info-label">Name:</span>
+                            <span className="info-value">
+                                {friend.firstName} {friend.lastName}
+                            </span>
+                        </div>
+                        <div className="info-row">
+                            <span className="info-label">Email:</span>
+                            <span className="info-value">{friend.email}</span>
+                        </div>
+                        <div className="info-row">
+                            <span className="info-label">Course:</span>
+                            <span className="info-value">{friend.course || 'Not specified'}</span>
+                        </div>
+                        <div className="info-row">
+                            <span className="info-label">Gender:</span>
+                            <span className="info-value">{friend.gender || 'Not specified'}</span>
+                        </div>
+                        <div className="info-row">
+                            <span className="info-label">Phone:</span>
+                            <span className="info-value">
+                                {friend.phoneNumber ? friend.phoneNumber : 'Not specified'}
+                            </span>
+                        </div>
+                        <div className="info-row">
+                            <span className="info-label">Age:</span>
+                            <span className="info-value">{friend.age || 'Not specified'}</span>
+                        </div>
+                        <div className="info-row">
+                            <span className="info-label">Height:</span>
+                            <span className="info-value">{friend.height ? `${friend.height} cm` : 'Not specified'}</span>
+                        </div>
+                        <div className="info-row">
+                            <span className="info-label">Weight:</span>
+                            <span className="info-value">{friend.weight ? `${friend.weight} kg` : 'Not specified'}</span>
+                        </div>
+                    </div>
+                )}
+                <button 
+                    className="remove-friend-button" 
+                    onClick={() => onRemove(friend.email)}
+                >
+                    Remove Friend
+                </button>
+            </div>
+        </div>
+    );
+};
+
+const Friends = () => {
+    const navigate = useNavigate();
+    const [searchEmail, setSearchEmail] = useState("");
+    const [searchResult, setSearchResult] = useState(null);
+    const [friendRequests, setFriendRequests] = useState([]);
+    const [sentRequests, setSentRequests] = useState([]);
+    const [friends, setFriends] = useState([]);
+    const [token] = useState(localStorage.getItem('token'));
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [userEmail, setUserEmail] = useState('');
+
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/signin');
+            return;
+        }
+
+        // Add token expiration check
+        const checkTokenExpiration = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/friends/list', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    localStorage.removeItem('token'); // Clear the expired token
+                    navigate('/signin');
+                }
+            }
+        };
+
+        checkTokenExpiration();
+    }, [navigate]);
+
+    useEffect(() => {
+        // Check if user is authenticated
+        if (!token) {
+            navigate('/signin');
+            return;
+        }
+    }, [token, navigate]);
+
+    // If not authenticated, don't render the component
+    if (!token) {
+        return null;
+    }
+
+    useEffect(() => {
+        fetchFriends();
+        fetchFriendRequests();
+        fetchSentRequests();
+    }, []);
+
+    useEffect(() => {
+        const getUserEmail = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/profile', config);
+                setUserEmail(response.data.email);
+            } catch (error) {
+                console.error('Error fetching user email:', error);
+            }
+        };
+        getUserEmail();
+    }, []);
+
+    const fetchFriendRequests = async () => {
+        try {
+            const { data } = await axios.get('http://localhost:5000/api/friends/requests', config);
+            setFriendRequests(data);
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                localStorage.removeItem('token');
+                navigate('/signin');
+            } else {
+                setError("Failed to fetch friend requests");
+            }
+        }
+    };
+
+    const fetchSentRequests = async () => {
+        try {
+            const { data } = await axios.get('http://localhost:5000/api/friends/sent-requests', config);
+            setSentRequests(data);
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                localStorage.removeItem('token');
+                navigate('/signin');
+            } else {
+                setError("Failed to fetch sent requests");
+            }
+        }
+    };
+
+    // Modify fetchFriends function
+    const fetchFriends = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                Swal.fire({
+                    title: '[ SESSION EXPIRED ]',
+                    text: 'Please sign in to view your friends',
+                    icon: 'warning',
+                    background: 'rgba(16, 16, 28, 0.95)',
+                    confirmButtonText: '< SIGN IN >',
+                    customClass: {
+                        popup: 'swal2-popup',
+                        title: 'swal2-title',
+                        confirmButton: 'swal2-confirm'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        navigate('/signin');
+                    }
+                });
+                return;
+            }
+
+            const response = await axios.get('http://localhost:5000/api/friends/list', config);
+            setFriends(response.data);
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                localStorage.removeItem('token');
+                Swal.fire({
+                    title: '[ SESSION EXPIRED ]',
+                    text: 'Your session has expired. Please sign in again.',
+                    icon: 'warning',
+                    background: 'rgba(16, 16, 28, 0.95)',
+                    confirmButtonText: '< SIGN IN >',
+                    customClass: {
+                        popup: 'swal2-popup',
+                        title: 'swal2-title',
+                        confirmButton: 'swal2-confirm'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        navigate('/signin');
+                    }
+                });
+            }
+        }
+    };
+
+    const searchUser = async () => {
+        if (!searchEmail) return;
+        setLoading(true);
+        setError(null);
+
+        try {
+            const { data } = await axios.get(
+                `http://localhost:5000/api/friends/search?email=${searchEmail}`,
+                config
+            );
+
+            // Check if the searched email is the user's own email
+            if (searchEmail === userEmail) {
+                setSearchResult({
+                    ...data,
+                    isOwnProfile: true
+                });
+                setLoading(false);
+                return;
+            }
+
+            // Rest of your existing searchUser logic...
+            const isFriend = friends.some(friend => friend.email === searchEmail);
+            const isPendingReceived = friendRequests.some(
+                request => request.sender?.email === searchEmail
+            );
+            const isPendingSent = sentRequests.some(
+                request => request.receiver?.email === searchEmail
+            );
+
+            let status = 'none';
+            if (isFriend) {
+                status = 'accepted';
+            } else if (isPendingReceived) {
+                status = 'pending-received';
+            } else if (isPendingSent) {
+                status = 'pending-sent';
+            }
+
+            setSearchResult({
+                ...data,
+                friendshipStatus: status,
+                isOwnProfile: false
+            });
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                localStorage.removeItem('token');
+                navigate('/signin');
+            } else {
+                setError(error.response?.data?.message || "User not found");
+                setSearchResult(null);
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const sendFriendRequest = async () => {
+        try {
+            const result = await Swal.fire({
+                title: '[ SEND FRIEND REQUEST ]',
+                text: `Connect with ${searchResult.firstName} ${searchResult.lastName}?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: '< SEND >',
+                cancelButtonText: '< CANCEL >',
+                background: 'rgba(16, 16, 28, 0.95)',
+                backdrop: `
+                    rgba(0,0,0,0.8)
+    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%230f0' fill-opacity='0.1'%3E%3C!-- Dumbbell 1 --%3E%3Cpath d='M20 40h10v20H20zM15 45h20v10H15zM10 48h30v4H10z'/%3E%3C!-- Barbell --%3E%3Cpath d='M60 45h30v10H60zM65 40h5v20h-5zM80 40h5v20h-5z'/%3E%3C!-- Kettlebell --%3E%3Cpath d='M20 5c0 8.284-6.716 15-15 15v5c11.046 0 20-8.954 20-20h-5z'/%3E%3C/g%3E%3C/svg%3E")
+                `
+            });
+
+            if (result.isConfirmed) {
+                const { data } = await axios.post(
+                    'http://localhost:5000/api/friends/request',
+                    { receiverEmail: searchResult.email },
+                    config
+                );
+                setSearchResult({ ...searchResult, friendshipStatus: 'pending' });
+                
+                await Swal.fire({
+                    title: '[ SUCCESS ]',
+                    text: 'Friend request sent!',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                localStorage.removeItem('token');
+                navigate('/signin');
+            } else {
+                Swal.fire({
+                    title: '[ ERROR ]',
+                    text: error.response?.data?.message || "Failed to send friend request",
+                    icon: 'error'
+                });
+            }
+        }
+    };
+
+    const handleRequest = async (requestId, action) => {
+        const actionText = action === 'accept' ? 'accept' : 'reject';
+        const iconColor = action === 'accept' ? '#0f0' : '#f00';
+        const backdropPattern = action === 'accept' ? 
+       ` url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%230f0' fill-opacity='0.1'%3E%3C!-- Dumbbell 1 --%3E%3Cpath d='M20 40h10v20H20zM15 45h20v10H15zM10 48h30v4H10z'/%3E%3C!-- Barbell --%3E%3Cpath d='M60 45h30v10H60zM65 40h5v20h-5zM80 40h5v20h-5z'/%3E%3C!-- Kettlebell --%3E%3Cpath d='M20 5c0 8.284-6.716 15-15 15v5c11.046 0 20-8.954 20-20h-5z'/%3E%3C/g%3E%3C/svg%3E")`:
+       `url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f00' fill-opacity='0.1'%3E%3C!-- Dumbbell 1 --%3E%3Cpath d='M20 40h10v20H20zM15 45h20v10H15zM10 48h30v4H10z'/%3E%3C!-- Barbell --%3E%3Cpath d='M60 45h30v10H60zM65 40h5v20h-5zM80 40h5v20h-5z'/%3E%3C!-- Kettlebell --%3E%3Cpath d='M20 5c0 8.284-6.716 15-15 15v5c11.046 0 20-8.954 20-20h-5z'/%3E%3C/g%3E%3C/svg%3E")`;
+        
+        try {
+            const result = await Swal.fire({
+                title: `[ ${actionText.toUpperCase()} REQUEST ]`,
+                text: `Are you sure you want to ${actionText} this friend request?`,
+                icon: action === 'accept' ? 'success' : 'warning',
+                showCancelButton: true,
+                confirmButtonText: `< ${actionText.toUpperCase()} >`,
+                cancelButtonText: '< CANCEL >',
+                background: 'rgba(16, 16, 28, 0.95)',
+                backdrop: `rgba(0,0,0,0.8) ${backdropPattern}`,
+                customClass: {
+                    confirmButton: action === 'accept' ? 'accept-confirm-button' : 'reject-confirm-button',
+                    cancelButton: 'cancel-button'
+                }
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    await axios.post(
+                        `http://localhost:5000/api/friends/${action}`,
+                        { requestId },
+                        config
+                    );
+                    await fetchFriendRequests();
+                    await fetchFriends();
+                    
+                    // Clear search result after action
+                    setSearchResult(null);
+                    setSearchEmail("");
+
+                    await Swal.fire({
+                        title: '[ SUCCESS ]',
+                        text: `Friend request ${action}ed successfully!`,
+                        icon: 'success',
+                        background: 'rgba(16, 16, 28, 0.95)'
+                    });
+                } catch (err) {
+                    // ...existing error handling...
+                }
+            }
+        } catch (err) {
+            console.error('Handle request error:', err);
+            Swal.fire({
+                title: '[ ERROR ]',
+                text: `Failed to ${action} request`,
+                icon: 'error',
+                background: 'rgba(16, 16, 28, 0.95)'
+            });
+        }
+    };
+
+    const cancelRequest = async (receiverEmail) => {
+        try {
+            const result = await Swal.fire({
+                title: '[ CANCEL REQUEST ]',
+                text: 'Are you sure you want to cancel this friend request?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '< CANCEL REQUEST >',
+                cancelButtonText: '< KEEP REQUEST >',
+                customClass: {
+                    popup: 'cancel-request-dialog',
+                    confirmButton: 'cancel-confirm-button',
+                    cancelButton: 'cancel-keep-button'
+                },
+                background: 'rgba(16, 16, 28, 0.95)',
+                backdrop: `
+                    rgba(0,0,0,0.8)
+    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f00' fill-opacity='0.1'%3E%3C!-- Dumbbell 1 --%3E%3Cpath d='M20 40h10v20H20zM15 45h20v10H15zM10 48h30v4H10z'/%3E%3C!-- Barbell --%3E%3Cpath d='M60 45h30v10H60zM65 40h5v20h-5zM80 40h5v20h-5z'/%3E%3C!-- Kettlebell --%3E%3Cpath d='M20 5c0 8.284-6.716 15-15 15v5c11.046 0 20-8.954 20-20h-5z'/%3E%3C/g%3E%3C/svg%3E")
+                `
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    await axios.post(
+                        'http://localhost:5000/api/friends/cancel-request',
+                        { receiverEmail },
+                        config
+                    );
+                    await fetchSentRequests();
+                    
+                    // Clear search result after cancellation
+                    setSearchResult(null);
+                    setSearchEmail("");
+
+                    await Swal.fire({
+                        title: '[ REQUEST CANCELLED ]',
+                        text: 'Friend request cancelled successfully!',
+                        icon: 'success',
+                        timer: 2000,
+                        showConfirmButton: false,
+                        background: 'rgba(16, 16, 28, 0.95)'
+                    });
+                } catch (err) {
+                    Swal.fire({
+                        title: '[ ERROR ]',
+                        text: 'Failed to cancel friend request',
+                        icon: 'error',
+                        background: 'rgba(16, 16, 28, 0.95)'
+                    });
+                }
+            }
+        } catch (err) {
+            Swal.fire({
+                title: '[ ERROR ]',
+                text: 'Failed to cancel friend request',
+                icon: 'error',
+                background: 'rgba(16, 16, 28, 0.95)'
+            });
+        }
+    };
+
+    const removeFriend = async (friendEmail) => {
+        try {
+            const result = await Swal.fire({
+                title: '[ REMOVE FRIEND ]',
+                text: 'Are you sure you want to remove this friend?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '< REMOVE >',
+                cancelButtonText: '< CANCEL >',
+                background: 'rgba(16, 16, 28, 0.95)',
+                confirmButtonColor: '#ff0000',
+                cancelButtonColor: '#00ff84',
+                backdrop: `
+                    rgba(0,0,0,0.8)
+                    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f00' fill-opacity='0.1'%3E%3Cpath d='M20 40h10v20H20zM15 45h20v10H15zM10 48h30v4H10z'/%3E%3Cpath d='M60 45h30v10H60zM65 40h5v20h-5zM80 40h5v20h-5zM20 5c0 8.284-6.716 15-15 15v5c11.046 0 20-8.954 20-20h-5z'/%3E%3C/g%3E%3C/svg%3E")
+                `
+            });
+
+            if (result.isConfirmed) {
+                const token = localStorage.getItem('token');
+                await axios.post(
+                    'http://localhost:5000/api/friends/remove',
+                    { friendEmail },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        }
+                    }
+                );
+
+                // Update local state
+                setFriends(prevFriends => prevFriends.filter(friend => friend.email !== friendEmail));
+                
+                // Clear search result after removal
+                setSearchResult(null);
+                setSearchEmail("");
+
+                await Swal.fire({
+                    title: '[ SUCCESS ]',
+                    text: 'Friend removed successfully!',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false,
+                    background: 'rgba(16, 16, 28, 0.95)'
+                });
+
+                // Refetch the friends list
+                await fetchFriends();
+            }
+        } catch (error) {
+            console.error('Error removing friend:', error);
+            await Swal.fire({
+                title: '[ ERROR ]',
+                text: 'Failed to remove friend',
+                icon: 'error',
+                background: 'rgba(16, 16, 28, 0.95)'
+            });
+        }
+    };
+
+    useEffect(() => {
+        const fetchFriends = async () => {
+            try {
+                const { data } = await axios.get('http://localhost:5000/api/friends/list', config);
+                setFriends(data);
+            } catch (error) {
+                console.error('Failed to fetch friends:', error);
+            }
+        };
+
+        fetchFriends();
+    }, []);
+
+    return (
+        <div className="friends-page">
+            <div className="friends-container">
+                <div className="search-section">
+                    <h2>Find Friends</h2>
+                    <div className="search-box">
+                        <input
+                            type="email"
+                            value={searchEmail}
+                            onChange={(e) => setSearchEmail(e.target.value)}
+                            placeholder="Search by email"
+                            className="search-input"
+                        />
+                        <button onClick={searchUser} className="search-button">
+                            Search
+                        </button>
+                    </div>
+
+                    {loading && <div className="loading">Searching...</div>}
+                    {error && <div className="error">{error}</div>}
+
+                    {searchResult && (
+                        <div className="search-result">
+                            <div className="user-card">
+                                {searchResult.profilePicture ? (
+                                    <img
+                                        src={`http://localhost:5000/${searchResult.profilePicture}`}
+                                        alt="Profile"
+                                        className="profile-picture"
+                                    />
+                                ) : (
+                                    <NoProfilePicture name={`${searchResult.firstName} ${searchResult.lastName}`} />
+                                )}
+                                <div className="user-info">
+                                    <h3>{searchResult.firstName} {searchResult.lastName}</h3>
+                                    <p>{searchResult.email}</p>
+                                    
+                                    {!searchResult.isOwnProfile && (
+                                        <>
+                                            {searchResult.friendshipStatus === 'none' && (
+                                                <button onClick={sendFriendRequest} className="add-friend-button">
+                                                    Add Friend
+                                                </button>
+                                            )}
+                                            
+                                            {searchResult.friendshipStatus === 'pending-sent' && (
+                                                <>
+                                                    <span className="status-badge pending">Request Pending</span>
+                                                    <button 
+                                                        onClick={() => cancelRequest(searchResult.email)}
+                                                        className="cancel-request-button"
+                                                    >
+                                                        Cancel Request
+                                                    </button>
+                                                </>
+                                            )}
+                                            
+                                            {searchResult.friendshipStatus === 'pending-received' && (
+                                                <div className="request-actions">
+                                                    <button 
+                                                        onClick={() => handleRequest(
+                                                            friendRequests.find(r => r.sender?.email === searchResult.email)?._id,
+                                                            'accept'
+                                                        )}
+                                                        className="accept-button"
+                                                    >
+                                                        Accept
+                                                    </button>
+                                                    <button 
+                                                        onClick={() => handleRequest(
+                                                            friendRequests.find(r => r.sender?.email === searchResult.email)?._id,
+                                                            'reject'
+                                                        )}
+                                                        className="reject-button"
+                                                    >
+                                                        Reject
+                                                    </button>
+                                                </div>
+                                            )}
+                                            
+                                            {searchResult.friendshipStatus === 'accepted' && (
+                                                <>
+                                                    <span className="status-badge friends">Already Friends</span>
+                                                    <button 
+                                                        onClick={() => removeFriend(searchResult.email)}
+                                                        className="remove-friend-button"
+                                                    >
+                                                        Remove Friend
+                                                    </button>
+                                                </>
+                                            )}
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                <div className="requests-wrapper">
+                    <div className="requests-section">
+                        <h2>Friend Requests</h2>
+                        <div className="requests-content">
+                            {friendRequests.length === 0 ? (
+                                <p>No pending friend requests</p>
+                            ) : (
+                                friendRequests.map(request => (
+                                    <div key={request._id} className="request-card">
+                                        {request.sender?.profilePicture ? (
+                                            <img
+                                                src={`http://localhost:5000/${request.sender.profilePicture}`}
+                                                alt="Profile"
+                                                className="profile-picture"
+                                            />
+                                        ) : (
+                                            <NoProfilePicture name={`${request.sender?.firstName} ${request.sender?.lastName}`} />
+                                        )}
+                                        <div className="request-info">
+                                            <h3>{request.sender?.firstName} {request.sender?.lastName}</h3>
+                                            <p>{request.sender?.email}</p>
+                                            <div className="request-actions">
+                                                <button
+                                                    onClick={() => handleRequest(request._id, 'accept')}
+                                                    className="accept-button"
+                                                >
+                                                    Accept
+                                                </button>
+                                                <button
+                                                    onClick={() => handleRequest(request._id, 'reject')}
+                                                    className="reject-button"
+                                                >
+                                                    Reject
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="sent-requests-section">
+                        <h2>Sent Requests</h2>
+                        <div className="sent-requests-content">
+                            {sentRequests.length === 0 ? (
+                                <p>No sent friend requests</p>
+                            ) : (
+                                sentRequests.map(request => (
+                                    <div key={request._id} className="request-card">
+                                        {request.receiver?.profilePicture ? (
+                                            <img
+                                                src={`http://localhost:5000/${request.receiver.profilePicture}`}
+                                                alt="Profile"
+                                                className="profile-picture"
+                                            />
+                                        ) : (
+                                            <NoProfilePicture name={`${request.receiver?.firstName} ${request.receiver?.lastName}`} />
+                                        )}
+                                        <div className="request-info">
+                                            <h3>{request.receiver?.firstName} {request.receiver?.lastName}</h3>
+                                            <p>{request.receiver?.email}</p>
+                                            <div className="request-actions">
+                                                <button
+                                                    onClick={() => cancelRequest(request.receiver?.email)}
+                                                    className="cancel-request-button"
+                                                >
+                                                    Cancel Request
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="friends-list-section">
+                    <h2>My Friends</h2>
+                    {friends.length === 0 ? (
+                        <p>No friends yet</p>
+                    ) : (
+                        <div className="friends-grid">
+                            {friends.map(friend => (
+                                <FriendCard 
+                                    key={friend._id} 
+                                    friend={friend}
+                                    onRemove={removeFriend}  // Pass removeFriend directly instead of handleRemoveFriend
+                                />
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Friends;

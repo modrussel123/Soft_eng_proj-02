@@ -1,0 +1,1926 @@
+/* Cyberpunk Theme Variables */
+:root {
+    --neon-green: #00ff84;
+    --dark-green: #00cc69;
+    --bg-dark: #0a0a0a;
+    --card-bg: #151515;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --neon-blue: #0ff;
+    --neon-purple: #f0f;
+}
+
+/* Global styles */
+body {
+    background: linear-gradient(360deg, #081C15 0%, #1B4332 90%);
+}
+
+.schedule-page {
+    min-height: 100vh;
+    background: linear-gradient(360deg, #081C15 0%, #1B4332 90%); 
+    padding: 2rem;
+    color: var(--text-primary);
+}
+
+.schedule-container {
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;  
+    align-items: start;
+    background: #1B4332;
+    min-height: 100vh;
+    border-radius: 20px;
+    border: 2px solid #00A951;
+    box-shadow: 0 0 50px rgba(0, 255, 132, 0.1);
+}
+
+
+.schedule-card {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.schedule-card,
+.workout-list {
+    width: 100%;
+    max-width: 800px; 
+    margin: 0 auto; 
+    margin-bottom: 2rem;
+}
+
+.schedule-header h1 {
+    text-align: center; 
+    margin-bottom: 1.5rem;
+    color: #ffffff !important; 
+    font-size: 1.3rem; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+    text-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.3),
+        0 0 20px rgba(0, 255, 132, 0.3); 
+}
+
+/* Calendar base styles */
+.fc {
+    width: 100% !important;
+    min-height: 500px; 
+    font-size: 0.9rem; 
+    background: rgba(177, 167, 166, 0.25) !important;
+    border-radius: 15px;
+    padding: 1rem;
+    border: 2px solid #00A951;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 132, 0.2);
+    color: #ffffff !important;
+    touch-action: pan-y pinch-zoom; 
+    margin: 0 auto; 
+}
+
+.fc .fc-toolbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 1rem;
+    margin-bottom: 1rem !important;
+}
+
+.fc .fc-toolbar-title {
+    text-align: center;
+    width: auto;
+    margin: 0 1rem !important;
+}
+
+.fc-theme-standard td, 
+.fc-theme-standard th,
+.fc-theme-standard .fc-scrollgrid {
+    color: #ffffff !important;
+    border-color: rgba(0, 169, 81, 0.3) !important;
+}
+
+.fc .fc-daygrid-day-number {
+    color: var(--text-primary) !important; 
+    opacity: 1 !important;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.4); 
+}
+
+.fc-theme-standard .fc-scrollgrid {
+    border: 1px solid #ddd !important;
+}
+
+.fc .fc-toolbar {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem !important;
+}
+
+.fc .fc-toolbar-title {
+    font-size: 1.3rem; 
+    color: #ffffff !important; 
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 
+        0 0 10px rgba(255, 255, 255, 0.3),
+        0 0 20px rgba(0, 255, 132, 0.3);
+    font-weight: 500;
+}
+
+.fc .fc-button {
+    padding: 0.6rem 1rem; 
+    font-size: 0.9rem; 
+    background: linear-gradient(45deg, var(--dark-green), var(--neon-green)) !important;
+    border: none !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5) !important;
+}
+
+.fc .fc-button-primary {
+    background-color: var(--card-bg) !important;
+    border-color: var(--neon-green) !important;
+    color: var(--neon-green) !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.fc .fc-button-primary:hover {
+    background-color: var(--neon-green) !important;
+    color: var(--bg-dark) !important;
+    box-shadow: 0 0 15px rgba(0, 255, 132, 0.5);
+}
+
+
+.fc .fc-daygrid-day {
+    height: 100px !important;
+    width: calc(100% / 7) !important;
+    min-width: auto !important;
+    max-width: none !important;
+}
+
+.fc .fc-daygrid-day-frame {
+    min-height: 80px !important;
+    max-height: 120px !important;
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+    padding: 2px !important;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch; 
+}
+
+.fc .fc-daygrid-day-frame::-webkit-scrollbar {
+    width: 3px;
+}
+
+.fc .fc-daygrid-day-frame::-webkit-scrollbar-track {
+    background: rgba(0, 169, 81, 0.1);
+}
+
+.fc .fc-daygrid-day-frame::-webkit-scrollbar-thumb {
+    background: rgba(0, 169, 81, 0.3);
+    border-radius: 2px;
+}
+
+.fc-day {
+    min-width: 100px !important; 
+}
+
+.fc-day-today {
+    background: rgba(0, 255, 132, 0.1) !important;
+}
+
+.fc-day-header,
+.fc-day-number,
+.fc-daygrid-day-number,
+.fc-col-header-cell-cushion,
+.fc-daygrid-day-top {
+    color: var(--text-primary) !important;
+}
+
+.fc .fc-daygrid-day.fc-day-today .fc-daygrid-day-number {
+    color: var(--neon-green) !important; 
+    text-shadow: 
+        0 0 10px rgba(0, 255, 132, 0.5),
+        0 0 20px rgba(0, 255, 132, 0.3); 
+    font-weight: bold; 
+}
+
+.workout-list {
+    background: rgba(177, 167, 166, 0.25) !important;
+    border-radius: 15px;
+    padding: 1rem;
+    border: 2px solid #00A951;
+    box-shadow: 0 0 20px rgba(0, 255, 132, 0.2);
+    height: auto;
+    max-height: 400px;
+    width: 100%;
+    max-width: 250px; 
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.workout-list h2 {
+    color: #ffffff !important; 
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f0f0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    text-align: center;  
+    flex-shrink: 0;
+}
+
+.workout-items-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: #007bff #f0f0f0;
+}
+
+.workout-items-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.workout-items-container::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 3px;
+}
+
+
+.workout-items-container::-webkit-scrollbar-thumb {
+    background-color: #007bff;
+    border-radius: 3px;
+}
+
+
+.workout-item {
+    background: rgba(27, 67, 50, 0.7);
+    border-radius: 10px;
+    padding: 1rem;
+    border: 1px solid #00A951;
+    transition: all 0.3s ease;
+    margin-bottom: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.workout-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(0, 255, 132, 0.3);
+}
+
+.workout-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.workout-info .date {
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
+}
+
+.workout-info .details {
+    color: #333;
+    font-size: 1rem;
+}
+
+.workout-info .date,
+.workout-info .details {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.workout-type-badge {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-right: 0.5rem;
+}
+
+.workout-type-Cardio { background: #e8f5e9; color: #2e7d32; }
+.workout-type-Strength { background: #ede7f6; color: #512da8; }
+.workout-type-Flexibility { background: #e3f2fd; color: #1565c0; }
+.workout-type-Balance { background: #fff3e0; color: #f57c00; }
+
+.workout-actions {
+    display: flex;
+    flex-direction: column; 
+    gap: 0.5rem;
+}
+
+.workout-actions button {
+    padding: 0.3rem 0.6rem; 
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.2rem; 
+    font-size: 0.85rem; 
+}
+
+.workout-actions .edit {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.workout-actions .edit:hover {
+    background: #bbdefb;
+}
+
+.workout-actions .delete {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.workout-actions .delete:hover {
+    background: #ffcdd2;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 1000;
+    padding: 0.5rem;
+}
+
+.schedule-modal {
+    width: 90%;
+    max-width: 450px;
+    background: #1B4332; 
+    padding: 1.5rem;
+    border: 2px solid #00A951;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 132, 0.2),
+        inset 0 0 20px rgba(0, 255, 132, 0.1);
+}
+
+.schedule-modal h2 {
+    text-align: center;
+    color: #ffffff; 
+    font-size: 1.4rem; 
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.input-group label {
+    display: block;
+    color: #00A951;
+    margin-bottom: 0.4rem;
+    padding-top: 0.8rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: left;
+    padding-left: 0.5rem;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    max-width: 100%;
+    background: rgba(177, 167, 166, 0.25);
+    border: 2px solid #00A951;
+    border-radius: 10px;
+    padding: 0.6rem;
+    color: white;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.input-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300A951' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+.input-group select option {
+    background: #1B4332;
+    color: white;
+    padding: 0.6rem;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding: 0 1rem;
+}
+
+.button-save {
+    background: #00A951;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.8rem 1.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 100px;
+    box-shadow: 0 0 0 2px rgba(0, 169, 81, 0.3);
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    min-width: 85px;
+    height: 32px;
+}
+
+.button-cancel {
+    background: #B22222;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 0.8rem 1.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 100px;
+    box-shadow: 0 0 0 2px rgba(178, 34, 34, 0.3);
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    min-width: 85px;
+    height: 32px;
+}
+
+.button-save:hover {
+    background: #00cc63;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(0, 255, 132, 0.4);
+}
+
+.button-cancel:hover {
+    background: #ff3366;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(255, 51, 102, 0.4);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .schedule-modal h2 {
+        font-size: 1.2rem;  
+        margin-bottom: 1.2rem;
+    }
+
+    .schedule-modal {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .schedule-modal h2 {
+        font-size: 1.4rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .input-group input,
+    .input-group select {
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+
+    .button-save,
+    .button-cancel {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.7rem;
+    }
+
+    .fc {
+        font-size: 0.85rem !important;
+    }
+
+    .fc .fc-daygrid-day-frame {
+        min-height: 60px !important;
+        max-height: 100px !important;
+        font-size: 0.8rem !important;
+    }
+
+    .schedule-modal,
+    .edit-modal,
+    .confirm-modal {
+        width: 90%;
+        padding: 1rem;
+    }
+
+    .schedule-modal h2,
+    .edit-modal h2 {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .button-save,
+    .button-cancel,
+    .button-delete,
+    .button-edit {
+        font-size: 0.75rem;
+        padding: 6px 10px;
+        min-width: 70px;
+        height: 30px;
+    }
+
+    .input-group {
+        margin-bottom: 0.8rem;
+    }
+
+    .input-group label {
+        font-size: 0.8rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .input-group input,
+    .input-group select {
+        font-size: 0.8rem;
+        padding: 0.4rem;
+    }
+
+    .schedule-container {
+        width: 98%;
+        padding: 0.8rem;
+        grid-template-columns: 1fr;
+    }
+
+    .workout-list {
+        max-width: 100%;
+        height: 200px;
+        margin-bottom: 1rem;
+    }
+
+    .fc .fc-daygrid-day-number {
+        font-size: 0.75rem;
+        padding: 1px 3px !important;
+    }
+
+    .fc-event {
+        font-size: 0.7rem !important;
+        padding: 1px 2px !important;
+    }
+
+    .schedule-container {
+        width: 100%;
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .schedule-card {
+        width: 95%;
+        padding: 0;
+    }
+
+    .fc {
+        padding: 0.5rem;
+        font-size: 0.85rem !important;
+    }
+
+    .fc .fc-toolbar {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.8rem !important;
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 1rem;
+        text-align: center;
+        width: 100%;
+    }
+
+    .fc .fc-daygrid-day-frame {
+        min-height: 60px !important;
+        max-height: 100px !important;
+    }
+
+    .fc-daygrid-day {
+        width: calc(100% / 7) !important;
+    }
+
+    .fc .fc-daygrid-day-number {
+        font-size: 0.7rem !important;
+        padding: 2px !important;
+    }
+
+    .fc-event {
+        font-size: 0.65rem !important;
+        padding: 1px 2px !important;
+        margin: 1px 0 !important;
+    }
+
+    /*  horizontal scrolling for events */
+    .fc-daygrid-event-harness {
+        width: 95% !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+    }
+
+  
+    .fc {
+        min-height: 400px !important;  
+        padding: 0.5rem !important;
+    }
+    
+    /*  day cells */
+    .fc .fc-daygrid-day-frame {
+        min-height: 60px !important;
+        max-height: 80px !important;
+        overflow-x: auto !important;
+        overflow-y: auto !important;
+        padding: 2px !important;
+    }
+    
+    .fc .fc-col-header-cell {
+        background: #1B4332 !important;
+        color: #ffffff !important;
+        border: 1px solid #00A951 !important;
+        text-align: center;
+        padding: 4px !important;
+    }
+    
+    .fc .fc-col-header-cell-cushion {
+        font-size: 0.85rem !important;
+        padding: 2px 4px !important;
+    }
+    
+    .fc .fc-toolbar {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .fc .fc-toolbar-title {
+        font-size: 1rem !important;
+        text-align: center;
+        flex-grow: 1;
+    }
+    
+    .fc .fc-button-group {
+        display: flex !important;
+        align-items: center !important;
+    }
+    
+    .fc .fc-button {
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.8rem !important;
+    }
+    
+    /*  calendar container */
+    .schedule-card {
+        width: 95%;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .confirm-modal {
+        width: 90%;
+        padding: 1rem;
+    }
+
+    .confirm-modal p {
+        font-size: 0.9rem;
+    }
+
+    .confirm-actions .button-cancel,
+    .confirm-actions .button-delete {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+        min-width: 70px;
+        height: 30px;
+    }
+
+    /*  calendar dimensions */
+    .fc {
+        min-height: 350px !important;
+        padding: 0.5rem !important;
+    }
+    
+    .fc .fc-daygrid-day-frame {
+        min-height: 50px !important;
+        max-height: 70px !important;
+    }
+    
+    .fc .fc-col-header-cell {
+        font-size: 0.75rem !important;
+        padding: 2px !important;
+        background: #1B4332 !important;
+        color: #ffffff !important;
+        border: 1px solid #00A951 !important;
+    }
+    
+    .fc .fc-col-header-cell-cushion {
+        font-size: 0.75rem !important;
+        padding: 2px !important;
+    }
+    
+    .fc .fc-toolbar {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .fc .fc-toolbar-title {
+        font-size: 0.9rem !important;
+    }
+    
+    .fc .fc-button {
+        padding: 0.3rem 0.6rem !important;
+        font-size: 0.75rem !important;
+    }
+    
+    .schedule-card {
+        width: 95%;
+        margin: 0 auto;
+    }
+}
+
+/* Toast Styling */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.schedule-toast {
+    background: var(--card-bg);
+    color: var(--text-primary);
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    animation: slideIn 0.3s ease;
+}
+
+.schedule-toast.success {
+    border: 1px solid var(--neon-green);
+    box-shadow: 
+        0 0 20px rgba(0, 255, 132, 0.2),
+        inset 0 0 10px rgba(0, 255, 132, 0.1);
+}
+
+.schedule-toast.error {
+    border: 1px solid #ff4444;
+    box-shadow: 
+        0 0 20px rgba(255, 68, 68, 0.2),
+        inset 0 0 10px rgba(255, 68, 68, 0.1);
+}
+
+
+.confirm-modal {
+    width: 90%;
+    max-width: 450px;
+    background: #1B4332;  
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 2px solid #00A951;
+    box-shadow: 
+        0 0 30px rgba(0, 255, 132, 0.2),
+        inset 0 0 20px rgba(0, 255, 132, 0.1);
+}
+
+.confirm-modal p {
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.confirm-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding: 0 1rem;
+}
+
+.confirm-actions .button-cancel,
+.confirm-actions .button-delete {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 16px;
+    min-width: 90px;
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.confirm-actions .button-delete {
+    background: #B22222;
+    color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(178, 34, 34, 0.3);
+}
+
+.confirm-actions .button-delete:hover {
+    background: #ff3366;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 0 15px rgba(255, 51, 102, 0.4),
+        0 0 0 2px rgba(255, 51, 102, 0.4);
+}
+
+.confirm-actions .button-cancel {
+    background: #00A951;
+    color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(0, 169, 81, 0.3);
+}
+
+.confirm-actions .button-cancel:hover {
+    background: #00cc63;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 0 15px rgba(0, 255, 132, 0.4),
+        0 0 0 2px rgba(0, 255, 132, 0.4);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .confirm-modal {
+        width: 95%;
+        padding: 1.2rem;
+    }
+
+    .confirm-modal p {
+        font-size: 1rem;
+    }
+
+    .confirm-actions .button-cancel,
+    .confirm-actions .button-delete {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+        min-width: 80px;
+        height: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .confirm-modal {
+        width: 90%;
+        padding: 1rem;
+    }
+
+    .confirm-modal p {
+        font-size: 0.9rem;
+    }
+
+    .confirm-actions .button-cancel,
+    .confirm-actions .button-delete {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+        min-width: 70px;
+        height: 30px;
+    }
+}
+
+/* Confirmation Modal Styling */
+.confirm-modal {
+    background: linear-gradient(145deg, 
+        rgba(25, 25, 30, 0.98), 
+        rgba(15, 15, 20, 0.98)
+    );
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 400px;
+    text-align: center;
+    border: 1px solid var(--neon-green);
+    box-shadow: 
+        0 0 30px rgba(0, 255, 132, 0.2),
+        inset 0 0 20px rgba(0, 255, 132, 0.1);
+}
+
+.confirm-modal p {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+
+.confirm-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.confirm-actions button {
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.button-delete.confirm {
+    background: linear-gradient(45deg, #ff3366, #ff0066);
+    color: white;
+    border: none;
+    box-shadow: 
+        0 0 20px rgba(255, 51, 102, 0.4),
+        inset 0 0 15px rgba(255, 51, 102, 0.3);
+    animation: deleteGlow 2s infinite alternate;
+}
+
+
+.fc-daygrid-day-number,
+.fc-col-header-cell-cushion,
+input[type="time"] {
+    color: var(--text-primary) !important;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); 
+}
+
+input[type="time"] {
+    width: 100% !important; 
+    min-width: auto !important;
+    margin-bottom: 0.5rem;
+}
+
+/* Animations */
+@keyframes toastSlideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes deleteGlow {
+    from {
+        box-shadow: 
+            0 0 20px rgba(255, 51, 102, 0.4),
+            inset 0 0 15px rgba(255, 51, 102, 0.3);
+    }
+    to {
+        box-shadow: 
+            0 0 30px rgba(255, 51, 102, 0.6),
+            inset 0 0 25px rgba(255, 51, 102, 0.5);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .schedule-container {
+        width: 95%;
+        padding: 1rem;
+        grid-template-columns: 1fr;
+    }
+    
+    .schedule-card,
+    .workout-list {
+        width: 95%; 
+        max-width: none;
+        padding: 1rem;
+    }
+    
+    .fc {
+        min-height: 600px; /* Adjusted for mobile */
+        background: rgba(177, 167, 166, 0.25) !important;
+        width: 95%;
+        padding: 1rem;
+    }
+    
+    .fc .fc-toolbar {
+        justify-content: center;
+    }
+    
+    .fc .fc-toolbar-title {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .fc .fc-daygrid-day {
+        height: 100px !important;
+    }
+    
+    .fc .fc-daygrid-day-frame {
+        min-height: 100px !important;
+    }
+    
+    .workout-item {
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: flex-start;
+    }
+    
+    .workout-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+    
+    .modal {
+        padding: 1.2rem;
+    }
+
+    .workout-list {
+        height: 300px; /* Smaller height on mobile */
+        background: rgba(177, 167, 166, 0.25) !important;
+        width: 95%;
+        padding: 1rem;
+        font-size: 1.1rem;
+    }
+    
+    .workout-item {
+        flex-direction: column;
+        gap: 0.8rem;
+    }   
+
+    .schedule-page {
+        padding: 1rem;
+    }
+
+    .schedule-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .workout-list {
+        order: 2; 
+    }
+
+    .schedule-card {
+        order: 1; 
+    }
+
+    .fc {
+        font-size: 0.9rem; 
+    }
+
+    .fc .fc-toolbar {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 1.2rem;
+    }
+
+    .workout-item {
+        padding: 0.8rem;
+    }
+
+    .workout-info {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .workout-actions {
+        flex-direction: row;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .workout-actions button {
+        padding: 0.25rem 0.5rem; 
+        font-size: 0.75rem; 
+    }
+
+    .modal {
+        width: 90%;
+        max-width: none;
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .input-group {
+        margin-bottom: 1rem;
+    }
+
+    .input-group label {
+        font-size: 0.9rem;
+    }
+
+    .input-group select,
+    .input-group input {
+        padding: 0.5rem;
+    }
+
+    .toast-container {
+        width: 90%;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 10px;
+    }
+
+    .schedule-toast {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .schedule-container {
+        width: 95%;
+        padding: 0.8rem;
+        grid-template-columns: 1fr;
+    }
+
+    .workout-list {
+        height: 250px;
+        padding: 1rem;
+    }
+
+    .schedule-card {
+        max-width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .fc {
+        min-height: 400px;
+        padding: 0.8rem;
+    }
+
+    .workout-actions button {
+        padding: 0.3rem 0.6rem; 
+        font-size: 0.8rem;
+    }
+
+    .workout-item {
+        padding: 0.6rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .schedule-container {
+        width: 90%;
+        padding: 0.5rem;
+        margin: 0 auto;
+    }
+
+    .workout-list {
+        height: 200px;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .schedule-card {
+        width: 90%;
+        margin: 0 auto 1rem auto;
+    }
+
+    .fc {
+        min-height: 350px;
+        padding: 0.5rem;
+    }
+
+    .edit-modal {
+        width: 95%;
+        padding: 1rem;
+        margin: 0.5rem;
+    }
+
+    .edit-modal h2 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    .edit-modal .input-group label {
+        font-size: 0.8rem;
+    }
+
+    .edit-modal .input-group input,
+    .edit-modal .input-group select,
+    .edit-modal .input-group textarea {
+        font-size: 0.85rem;
+        padding: 0.5rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .fc .fc-toolbar-title {
+        font-size: 1rem;
+    }
+
+    .fc .fc-button {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+    }
+
+    .workout-item {
+        font-size: 0.9rem;
+    }
+
+    .schedule-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .workout-list h2 {
+        font-size: 1.3rem;
+    }
+
+    .schedule-container {
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    .workout-list {
+        height: 200px; /* Even smaller for very small screens */
+        background: rgba(177, 167, 166, 0.25) !important;
+        width: 95%;
+        padding: 0.8rem;
+    }
+
+    .workout-list h2,
+    .schedule-header h1 {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+
+    .workout-info .date,
+    .workout-info .details {
+        font-size: 0.8rem;
+    }
+
+    .workout-actions button {
+        padding: 0.2rem 0.4rem; 
+        font-size: 0.7rem; 
+    }
+
+    .modal h2 {
+        font-size: 1rem; 
+    }
+
+    .schedule-container {
+        width: 95%;
+        padding: 0.3rem;
+    }
+
+    .workout-list {
+        height: 180px;
+        width: 95%;
+    }
+
+    .schedule-card {
+        width: 95%;
+    }
+
+    .modal {
+        width: 85%;
+        padding: 1rem;
+    }
+
+    input[type="time"] {
+        width: 120px !important;
+    }
+
+    .edit-modal {
+        width: 98%;
+        padding: 0.8rem;
+    }
+
+    .edit-modal h2 {
+        font-size: 1rem;
+    }
+
+    .edit-modal .input-group label {
+        font-size: 0.75rem;
+    }
+
+    .edit-modal .input-group input,
+    .edit-modal .input-group select,
+    .edit-modal .input-group textarea {
+        font-size: 0.8rem;
+        padding: 0.4rem;
+    }
+
+    .fc {
+        font-size: 0.8rem !important;
+    }
+
+    .fc .fc-daygrid-day-frame {
+        min-height: 50px !important;
+        max-height: 80px !important;
+    }
+
+    .fc .fc-daygrid-day-number {
+        font-size: 0.7rem;
+        padding: 1px 2px !important;
+    }
+
+    .fc-event {
+        font-size: 0.65rem !important;
+        padding: 1px !important;
+        margin-bottom: 1px !important;
+    }
+
+    .schedule-modal h2,
+    .edit-modal h2 {
+        font-size: 0.9rem;
+    }
+
+    .button-save,
+    .button-cancel,
+    .button-delete,
+    .button-edit {
+        font-size: 0.7rem;
+        padding: 5px 8px;
+        min-width: 60px;
+        height: 28px;
+    }
+
+    .button-save[value="Update Workout"] {
+        font-size: 0.65rem;
+        padding: 5px 6px;
+    }
+
+    .input-group label {
+        font-size: 0.75rem;
+    }
+
+    .input-group input,
+    .input-group select {
+        font-size: 0.75rem;
+        padding: 0.3rem;
+    }
+}
+
+.edit-modal {
+    width: 90%;
+    max-width: 450px;
+    background: #1B4332;
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 2px solid #00A951;
+    box-shadow: 0 0 30px rgba(0, 255, 132, 0.2);
+}
+
+.edit-modal h2 {
+    color: #ffffff !important;
+    text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ffffff;
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.edit-modal .input-group {
+    margin-bottom: 1.5rem;
+}
+
+.edit-modal .input-group label {
+    color: #00A951;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.4rem;
+}
+
+.edit-modal .input-group input,
+.edit-modal .input-group select,
+.edit-modal .input-group textarea {
+    background: rgba(177, 167, 166, 0.25);
+    border: 2px solid #00A951;
+    border-radius: 10px;
+    padding: 0.6rem;
+    color: white;
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+
+.button-edit, 
+.button-delete, 
+.button-save, 
+.button-cancel {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 16px;
+    min-width: 90px;
+    height: 35px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-save,
+.button-edit {
+    background: #00A951;
+    color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(0, 169, 81, 0.3);
+}
+
+.button-save:hover,
+.button-edit:hover {
+    background: #00cc63;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 0 15px rgba(0, 255, 132, 0.4),
+        0 0 0 2px rgba(0, 255, 132, 0.4);
+}
+
+.button-cancel,
+.button-delete {
+    background: #B22222;
+    color: #ffffff;
+    box-shadow: 0 0 0 2px rgba(178, 34, 34, 0.3);
+}
+
+.button-cancel:hover,
+.button-delete:hover {
+    background: #ff3366;
+    transform: translateY(-2px);
+    box-shadow: 
+        0 0 15px rgba(255, 51, 102, 0.4),
+        0 0 0 2px rgba(255, 51, 102, 0.4);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding: 0 1rem;
+}
+
+.schedule-modal .button-save,
+.schedule-modal .button-cancel,
+.edit-modal .button-save,
+.edit-modal .button-cancel {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    min-width: 90px;
+    height: 35px;
+}
+
+@media (max-width: 768px) {
+    .button-save,
+    .button-cancel,
+    .button-edit,
+    .button-delete {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+        min-width: 80px;
+        height: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .button-save,
+    .button-cancel,
+    .button-edit,
+    .button-delete {
+        font-size: 0.75rem;
+        padding: 5px 10px;
+        min-width: 70px;
+        height: 30px;
+    }
+
+   
+    .button-save[value="Update Workout"] {
+        font-size: 0.75rem;
+        padding: 5px 8px;
+        min-width: 120px; 
+        height: 32px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        line-height: 1;
+    }
+
+    .button-save[value="Update Workout"]::before {
+        content: "UPDATE";
+        display: block;
+        margin-bottom: 2px;
+    }
+
+    .button-save[value="Update Workout"]::after {
+        content: "WORKOUT";
+        display: block;
+    }
+
+    .button-save[value="Update Workout"] {
+        font-size: 0;
+    }
+
+    .input-group input[type="time"] {
+        width: 100% !important;
+        min-width: 100% !important;
+        padding: 0.6rem;
+        font-size: 0.9rem;
+    }
+
+    .schedule-modal,
+    .edit-modal {
+        width: 95%;
+        max-width: none;
+    }
+
+    .input-group {
+        margin-bottom: 1.2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .fc-event {
+        font-size: 0.8rem !important;
+        padding: 2px 4px !important;
+    }
+}
+
+.fc .fc-daygrid-day-number {
+    font-size: 0.8rem;
+    padding: 2px 4px !important;
+}
+
+.fc-event {
+    font-size: 0.75rem !important;
+    padding: 2px 4px !important;
+    margin-bottom: 2px !important;
+}
+
+
+.fc-daygrid-event-harness {
+    margin: 1px 0 !important;
+}
+
+
+.fc-theme-standard td, 
+.fc-theme-standard th {
+    padding: 1px !important;
+    font-size: 0.85rem;
+}
+
+.fc .fc-daygrid-day-frame {
+    min-height: 60px !important;
+    max-height: 100px !important;
+    overflow-x: auto !important;
+    overflow-y: auto !important;
+    padding: 2px !important;
+    scrollbar-width: thin;
+}
+
+.fc-event {
+    font-size: 0.75rem !important;
+    padding: 2px 4px !important;
+    margin-bottom: 2px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 95% !important;
+}
+
+.fc .fc-daygrid-day-number {
+    font-size: 0.8rem !important;
+    padding: 2px !important;
+    min-height: auto !important;
+}
+
+@media (max-width: 768px) {
+    /* Adjust workout list */
+    .workout-list {
+        width: 85% !important;
+        max-width: none;
+        height: 180px;
+        margin: 0 auto 1rem auto;
+    }
+
+    .fc .fc-daygrid-day-frame {
+        min-height: 40px !important;
+        max-height: 80px !important;
+    }
+
+    .fc .fc-daygrid-day-number {
+        font-size: 0.7rem !important;
+        padding: 1px !important;
+    }
+
+    .fc-event {
+        font-size: 0.65rem !important;
+        padding: 1px 2px !important;
+        border-radius: 3px !important;
+    }
+
+    .fc .fc-daygrid-day-frame::-webkit-scrollbar {
+        height: 3px;
+        width: 3px;
+    }
+
+    .fc .fc-daygrid-day-frame::-webkit-scrollbar-thumb {
+        background: rgba(0, 169, 81, 0.3);
+        border-radius: 3px;
+    }
+}
+
+@media (max-width: 480px) {
+    .workout-list {
+        width: 80% !important;
+        height: 160px;
+        padding: 0.8rem;
+    }
+
+    .fc .fc-daygrid-day-frame {
+        min-height: 35px !important;
+        max-height: 70px !important;
+    }
+
+    .fc-event {
+        font-size: 0.6rem !important;
+        line-height: 1.2 !important;
+    }
+}
+
+/* Horizontal scroll indicator */
+.fc .fc-daygrid-day-frame::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(0, 169, 81, 0.1));
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.fc .fc-daygrid-day-frame:hover::after {
+    opacity: 1;
+}
+
+/* Enable swipe gestures for calendar */
+.fc-scroller {
+    overflow: auto !important;
+    -webkit-overflow-scrolling: touch;
+}
+
+                                .fc-col-header-cell {
+    padding: 4px !important;
+    text-align: center !important;
+}
+
+.fc-col-header-cell-cushion {
+    padding: 2px !important;
+    font-size: 0.85rem !important;
+}
+
+
+@media screen and (min-width: 769px) {
+  .fc .fc-col-header-cell {
+    background: #1B4332;                                  
+    color: #ffffff !important; 
+    border: 1px solid #00A951;
+    text-align: center;
+    padding: 4px;
+  }
+  .fc .fc-col-header-cell-cushion {
+    font-size: 1rem;
+    padding: 4px;
+  }
+}
+
+
+.fc-daygrid-event-harness {
+  position: relative;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.fc-daygrid-event-harness::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.fc-event {
+  scroll-snap-align: start;
+  white-space: nowrap;
+  margin-right: 4px;
+}
+
+.fc-daygrid-event::before {
+  content: '⟷ Swipe';
+  position: absolute;
+  top: -18px; /* Increased from -15px */
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 169, 81, 1); /* Darker green background - removed transparency */
+  color: white;
+  padding: 4px 12px; /* Increased padding */
+  border-radius: 12px;
+  font-size: 0.75rem; /* Increased from 0.65rem */
+  z-index: 5;
+  white-space: nowrap;
+  opacity: 1; /* Full opacity */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Added shadow for better visibility */
+  font-weight: bold; /* Added bold text */
+}
+
+.fc-event {
+  scroll-snap-align: start;
+  white-space: nowrap !important;
+  overflow-x: visible !important;
+  margin-top: 20px !important; /* Increased from 15px to accommodate larger swipe button */
+  position: relative;
+  min-width: max-content;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+  .fc-daygrid-event::before {
+    top: -16px; /* Slightly smaller on mobile but still larger than original */
+    padding: 3px 10px; /* Slightly smaller padding on mobile */
+    font-size: 0.7rem; /* Slightly smaller font on mobile */
+    background: rgba(0, 169, 81, 1); /* Keep the solid color on mobile */
+  }
+  
+  .fc-event {
+    margin-top: 18px !important; /* Slightly reduced margin on mobile */
+  }
+}
+
+/* Small mobile screens */
+@media (max-width: 480px) {
+  .fc-daygrid-event::before {
+    top: -15px;
+    padding: 2px 8px;
+    font-size: 0.65rem;
+  }
+  
+  .fc-event {
+    margin-top: 16px !important;
+  }
+}
+
+/* Vertical scrollbar styling - Blue color */
+.fc .fc-daygrid-day-frame::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.fc .fc-daygrid-day-frame::-webkit-scrollbar-track {
+  background: rgba(0, 123, 255, 0.1); 
+}
+
+.fc .fc-daygrid-day-frame::-webkit-scrollbar-thumb {
+  background: rgba(0, 123, 255, 0.6); 
+  border-radius: 4px;
+}
+
+/* Firefox scrollbar styling */
+.fc .fc-daygrid-day-frame {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 123, 255, 0.6) rgba(0, 123, 255, 0.1); 
+}
+
+@media (max-width: 768px) {
+    .schedule-container {
+        grid-template-columns: 1fr;
+        width: 90%;
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .schedule-card {
+        width: 100%;
+        padding: 0;
+    }
+
+    .fc {
+        width: 100% !important;
+        min-height: 400px;
+    }
+
+    .fc .fc-toolbar {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        padding: 0;
+    }
+
+    .fc .fc-toolbar-title {
+        width: 100%;
+        margin: 0.5rem 0 !important;
+        font-size: 1.1rem !important;
+        order: -1; 
+    }
+
+    .fc .fc-toolbar-chunk {
+        display: flex;
+        justify-content: center;
+        width: auto;
+    }
+
+    .fc .fc-prev-button,
+    .fc .fc-next-button {
+        padding: 0.4rem 0.8rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .schedule-container {
+        width: 95%;
+        padding: 0.5rem;
+    }
+
+    .fc {
+        min-height: 350px;
+        padding: 0.5rem;
+    }
+
+    .fc .fc-toolbar-title {
+        font-size: 1rem !important;
+    }
+
+    .fc .fc-toolbar {
+        margin-bottom: 0.5rem !important;
+    }
+
+    /* Center calendar in container */
+    .schedule-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    /* Make calendar fill available space */
+    .fc.fc-theme-standard {
+        width: 100% !important;
+        max-width: 100%;
+    }
+
+    /* Ensure buttons are properly spaced */
+    .fc .fc-button-group {
+        margin: 0 0.25rem;
+    }
+}

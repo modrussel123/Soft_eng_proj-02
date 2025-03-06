@@ -1,0 +1,151 @@
+.leaderboard-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: rgba(27, 67, 50, 0.8);
+    border-radius: 20px;
+    border: 1px solid #00A951;
+    animation: borderGlow 4s infinite alternate;
+}
+
+.leaderboard-message {
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.leaderboard-content {
+    font-size: 16px;
+    color: #333;
+}
+
+.leaderboard-page {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #1B4332, #081C15 85%);
+    padding: 2rem;
+}
+
+.leaderboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.trophy-icon {
+    font-size: 2.5rem;
+    color: #FFD700;
+}
+
+.leaderboard-header h2 {
+    color: #00ff84;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(0, 255, 132, 0.5);
+    margin: 0;
+}
+
+.top-performers {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+.performer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 15px;
+    border: 1px solid #00A951;
+    background: rgba(27, 67, 50, 0.6);
+    transition: transform 0.3s ease;
+}
+
+.performer:hover {
+    transform: translateY(-5px);
+}
+
+.performer.first {
+    padding-top: 2rem;
+    height: 220px;
+}
+
+.performer.second,
+.performer.third {
+    height: 180px;
+}
+
+.crown {
+    font-size: 2rem;
+    color: #FFD700;
+    margin-bottom: 0.5rem;
+}
+
+.medal {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.medal.silver {
+    color: #C0C0C0;
+}
+
+.medal.bronze {
+    color: #CD7F32;
+}
+
+.rank {
+    font-size: 1.5rem;
+    color: #00ff84;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.name {
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.score {
+    color: #00ff84;
+    font-weight: bold;
+}
+
+.auth-message {
+    text-align: center;
+    color: #ffffff;
+}
+
+.signin-btn {
+    margin-top: 1rem;
+    padding: 0.8rem 2rem;
+    background: #00A951;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.signin-btn:hover {
+    background: #00ff84;
+    transform: translateY(-2px);
+}
+
+@keyframes borderGlow {
+    from {
+        box-shadow: 0 0 10px rgba(0, 255, 132, 0.2);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(0, 255, 132, 0.4);
+    }
+}
+

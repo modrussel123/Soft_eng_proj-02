@@ -1,0 +1,83 @@
+.workouts-page {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #1B4332, #081C15 85%);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+}
+
+.workouts-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.workouts-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid #00A951;
+    background: rgba(27, 67, 50, 0.8);
+    animation: borderGlow 4s infinite alternate;
+}
+
+.workouts-header h2 {
+    font-size: 2.5rem;
+    color: #00ff84;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(0, 255, 132, 0.5);
+}
+
+.workouts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.workout-card {
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid #00A951;
+    background: rgba(27, 67, 50, 0.8);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.workout-card:hover {
+    transform: translateY(-5px);
+}
+
+.workout-icon {
+    font-size: 3rem;
+    color: #00ff84;
+    margin-bottom: 1rem;
+}
+
+.workout-card h3 {
+    color: #00ff84;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.workout-card p {
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+@keyframes borderGlow {
+    from {
+        box-shadow: 0 0 10px rgba(0, 255, 132, 0.2);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(0, 255, 132, 0.4);
+    }
+}
+
+
+

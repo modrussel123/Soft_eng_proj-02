@@ -1,0 +1,45 @@
+.home-page {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #1B4332, #081C15 85%);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.home-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.page-header {
+    width: 100%;
+    text-align: center;
+    padding: 2rem;
+    border-radius: 20px;
+    border: 1px solid #00A951;
+    background: rgba(27, 67, 50, 0.8);
+    animation: borderGlow 4s infinite alternate;
+    margin-bottom: 2rem;
+}
+
+.welcome-text {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+@keyframes borderGlow {
+    from {
+        box-shadow: 0 0 10px rgba(0, 255, 132, 0.2);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(0, 255, 132, 0.4);
+    }
+}
+
