@@ -10,12 +10,18 @@ const workoutScheduleRoutes = require('./routes/workoutScheduleRoutes');
 const streakRoutes = require('./routes/streakRoutes'); 
 const friendRoutes = require("./routes/friendRoutes");
 const weightRoutes = require('./routes/weightRoutes');
-
+const leaderboardRoutes = require('./routes/leaderboardRoutes');
 const app = express();
 
-// Middleware
+// CORS configuration
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(express.json());
-app.use(cors());
 
 // Static files
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
@@ -28,6 +34,7 @@ app.use('/api/workout-schedule', workoutScheduleRoutes);
 app.use('/api/streak', streakRoutes);
 app.use('/api/weight', weightRoutes);
 app.use('/api/friends', friendRoutes); 
+app.use('/api/leaderboard', leaderboardRoutes);
 
 console.log("🚀 Server.js is running...");
 
@@ -63,5 +70,10 @@ app.get('/', (req, res) => {
   res.send('🚀 Gym Web App Backend is Running!');
 });
 
+// Health check route
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+

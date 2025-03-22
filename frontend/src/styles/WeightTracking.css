@@ -690,6 +690,12 @@
     transform: translateY(0);
 }
 
+.weight-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    filter: grayscale(100%);
+}
+
 @keyframes borderGlow {
     from { box-shadow: 0 0 20px rgba(0, 255, 132, 0.1); }
     to { box-shadow: 0 0 40px rgba(0, 255, 132, 0.3); }

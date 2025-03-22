@@ -25,6 +25,8 @@ ChartJS.register(
     Legend
 );
 
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
 // Add Toast component at the top
 const Toast = ({ message, type, onClose }) => {
     useEffect(() => {
@@ -61,6 +63,7 @@ const WeightTracking = () => {
     const [toasts, setToasts] = useState([]);
     const [showConfirmModal, setShowConfirmModal] = useState({ show: false, id: null });
     const [error, setError] = useState(null); // Add this line with other useState declarations
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     // Add this useEffect at the top for authentication check
     useEffect(() => {
@@ -104,7 +107,7 @@ const WeightTracking = () => {
                 return;
             }
 
-            const response = await axios.get('http://localhost:5000/api/profile', {
+            const response = await axios.get(`${API_URL}api/profile`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setCurrentWeight(response.data.weight);
@@ -134,7 +137,7 @@ const WeightTracking = () => {
     const fetchWeightHistory = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:5000/api/weight/history', {
+            const response = await axios.get(`${API_URL}api/weight/history`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setWeightHistory(response.data);
@@ -145,40 +148,82 @@ const WeightTracking = () => {
         }
     };
 
+    // Update the handleWeightChange function
     const handleWeightChange = async (changeType) => {
-        if (!weightInput) {
-            showToast('Please enter a weight change value', 'error');
-            return;
-        }
-
-        const change = parseFloat(weightInput);
-        if (isNaN(change)) {
-            showToast('Please enter a valid number', 'error');
-            return;
-        }
-
-        const newWeight = changeType === 'increase' ? 
-            currentWeight + change : 
-            currentWeight - change;
-
-        if (newWeight <= 0 || newWeight > 500) {
-            showToast('Weight must be between 0 and 500 kg', 'error');
-            return;
-        }
-
         try {
+            if (!weightInput) {
+                showToast('Please enter a weight change value', 'error');
+                return;
+            }
+    
+            const change = parseFloat(weightInput);
+            if (isNaN(change)) {
+                showToast('Please enter a valid number', 'error');
+                return;
+            }
+    
+            // Add limits for weight changes
+            if (changeType === 'increase' && change > 1) {
+                showToast('Weight gain cannot exceed 1 kg per day', 'error');
+                return;
+            }
+    
+            if (changeType === 'decrease' && change > 2) {
+                showToast('Weight loss cannot exceed 2 kg per day', 'error');
+                return;
+            }
+    
+            const newWeight = changeType === 'increase' ? 
+                currentWeight + change : 
+                currentWeight - change;
+    
+            if (newWeight < 40) {
+                showToast('Weight cannot be less than 40 kg', 'error');
+                return;
+            }
+    
+            if (newWeight > 500) {
+                showToast('Weight cannot exceed 500 kg', 'error');
+                return;
+            }
+    
             const token = localStorage.getItem('token');
-            await axios.post('http://localhost:5000/api/weight/log', 
+            if (!token) {
+                showToast('Authentication required', 'error');
+                navigate('/signin');
+                return;
+            }
+    
+            const response = await axios.post(
+                `${API_URL}api/weight/log`,
                 { weight: newWeight },
-                { headers: { Authorization: `Bearer ${token}` }}
+                { 
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                }
             );
-
-            setCurrentWeight(newWeight);
-            setWeightInput('');
-            showToast(`Weight successfully ${changeType === 'increase' ? 'increased' : 'decreased'} by ${change}kg`, 'success');
-            fetchWeightHistory();
+    
+            if (response.data.success) {
+                setCurrentWeight(response.data.currentWeight);
+                setWeightInput('');
+                showToast(
+                    `Weight successfully ${changeType === 'increase' ? 'increased' : 'decreased'} by ${change}kg`,
+                    'success'
+                );
+                fetchWeightHistory();
+                
+                // Disable button for 3 seconds
+                setIsButtonDisabled(true);
+                setTimeout(() => {
+                    setIsButtonDisabled(false);
+                }, 3000);
+            }
         } catch (error) {
-            showToast('Failed to update weight', 'error');
+            console.error('Error updating weight:', error);
+            const errorMessage = error.response?.data?.error || 'Failed to update weight';
+            showToast(errorMessage, 'error');
         }
     };
 
@@ -197,7 +242,7 @@ const WeightTracking = () => {
     const confirmDelete = async () => {
         try {
             const token = localStorage.getItem('token');
-            await axios.delete(`http://localhost:5000/api/weight/${showConfirmModal.id}`, {
+            await axios.delete(`${API_URL}api/weight/${showConfirmModal.id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             showToast('Weight record deleted successfully', 'success');
@@ -269,8 +314,12 @@ const WeightTracking = () => {
                             value={weightInput}
                             onChange={(e) => {
                                 const value = parseFloat(e.target.value);
-                                if (value > 500) {
-                                    showToast('Weight cannot exceed 500 kg!', 'error');
+                                if (value < 0) {
+                                    showToast('Weight change cannot be negative!', 'error');
+                                    return;
+                                }
+                                if (value > 2) {
+                                    showToast('Maximum weight change is 2 kg for loss and 1 kg for gain!', 'error');
                                     return;
                                 }
                                 setWeightInput(e.target.value);
@@ -278,20 +327,22 @@ const WeightTracking = () => {
                             placeholder="Enter weight change"
                             step="0.1"
                             min="0"
-                            max="500"
+                            max="2"
                             className="weight-input"
                         />
                     </div>
                     <div className="weight-buttons">
                         <button 
                             onClick={() => handleWeightChange('decrease')}
-                            className="weight-btn decrease"
+                            className={`weight-btn decrease ${isButtonDisabled ? 'disabled' : ''}`}
+                            disabled={isButtonDisabled}
                         >
                             Lost -{weightInput || '0'} kg
                         </button>
                         <button 
                             onClick={() => handleWeightChange('increase')}
-                            className="weight-btn increase"
+                            className={`weight-btn increase ${isButtonDisabled ? 'disabled' : ''}`}
+                            disabled={isButtonDisabled}
                         >
                             Gained +{weightInput || '0'} kg
                         </button>

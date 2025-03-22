@@ -1,5 +1,7 @@
 import Swal from 'sweetalert2';
 
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
 export const handleAuth = () => {
   const token = localStorage.getItem('token');
   if (!token) {
@@ -31,7 +33,7 @@ export const handleGlobalSignOut = async (navigate) => {
       }
     });
 
-    const response = await fetch('http://localhost:5000/api/auth/signout', {
+    const response = await fetch(`${API_URL}api/auth/signout`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: user.email })

@@ -5,6 +5,8 @@ import { FaUser, FaCamera, FaTrash, FaTimes } from 'react-icons/fa';
 import Swal from 'sweetalert2'; 
 import '../styles/Profile.css';
 
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
 const Profile = () => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -48,7 +50,7 @@ const Profile = () => {
                 return;
             }
 
-            const response = await axios.get('http://localhost:5000/api/profile', {
+            const response = await axios.get(`${API_URL}api/profile`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -196,7 +198,7 @@ const Profile = () => {
                 const formData = new FormData();
                 formData.append("profilePicture", selectedFile);
 
-                const response = await axios.post('http://localhost:5000/api/profile/upload-profile', 
+                const response = await axios.post(`${API_URL}api/profile/upload-profile`, 
                     formData,
                     {
                         headers: { 
@@ -267,7 +269,7 @@ const Profile = () => {
 
             if (result.isConfirmed) {
                 const token = localStorage.getItem("token");
-                await axios.delete('http://localhost:5000/api/profile/delete-profile', {
+                await axios.delete(`${API_URL}api/profile/delete-profile`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 
@@ -316,7 +318,7 @@ const Profile = () => {
         try {
             const token = localStorage.getItem("token");
             const response = await axios.put(
-                'http://localhost:5000/api/profile/update-info',
+                `${API_URL}api/profile/update-info`,
                 {
                     ...editedInfo,
                     height: parseFloat(editedInfo.height),
@@ -372,8 +374,8 @@ const Profile = () => {
                 text: `Are you sure you want to make your profile ${user.isPrivate ? 'public' : 'private'}?`,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: user.isPrivate ? '< MAKE PUBLIC >' : '< MAKE PRIVATE >',
-                cancelButtonText: '< CANCEL >',
+                confirmButtonText: user.isPrivate ? '< MAKE PUBLIC >' : '< MAKE PRIVATE >',  // Remove < > symbols
+                cancelButtonText: '< CANCEL >',  // Simplified text
                 background: 'rgba(16, 16, 28, 0.95)',
                 confirmButtonColor: '#00ff84',
                 cancelButtonColor: '#ff4444',
@@ -383,7 +385,7 @@ const Profile = () => {
             if (result.isConfirmed) {
                 const token = localStorage.getItem('token');
                 await axios.put(
-                    'http://localhost:5000/api/profile/toggle-privacy',
+                    `${API_URL}api/profile/toggle-privacy`,
                     {},
                     { headers: { Authorization: `Bearer ${token}` }}
                 );
@@ -420,7 +422,6 @@ const Profile = () => {
         return digits.length === 10 && /^\d+$/.test(digits);
     };
 
-    // Add this for privacy confirmation
     const handlePrivacyToggle = async () => {
         const result = await Swal.fire({
             title: 'Change Profile Privacy',
@@ -454,84 +455,85 @@ const Profile = () => {
         <div className="profile-container">
             <div className="profile-card">
                 <div className="profile-header">
-    <div className="profile-picture-container">
-        {previewUrl ? (
-            <img 
-                src={previewUrl} 
-                alt="Preview" 
-                style={{ 
-                    width: '250px', 
-                    height: '250px', 
-                    objectFit: 'cover',
-                    borderRadius: '50%'  
-                }}
-            />
-        ) : user.profilePicture ? (
-            <img 
-                src={`http://localhost:5000/${user.profilePicture}`} 
-                alt="Profile" 
-                style={{ 
-                    width: '250px', 
-                    height: '250px', 
-                    objectFit: 'cover',
-                    borderRadius: '50%'  // If you want to keep the circular shape
-                }}
-            />
-        ) : (
-            <FaUser style={{ 
-                width: '80px', 
-                height: '80px', 
-                color: '#00ff84' 
-            }} />
-        )}
+                    <h2 className="profile-picture-title">My Profile </h2>
+                    <div className="profile-picture-container">
+                        {previewUrl ? (
+                            <img 
+                                src={previewUrl} 
+                                alt="Preview" 
+                                style={{ 
+                                    width: '250px', 
+                                    height: '250px', 
+                                    objectFit: 'cover',
+                                    borderRadius: '50%'  
+                                }}
+                            />
+                        ) : user.profilePicture ? (
+                            <img 
+                                src={user.profilePicture}  
+                                alt="Profile" 
+                                style={{ 
+                                    width: '250px', 
+                                    height: '250px', 
+                                    objectFit: 'cover',
+                                    borderRadius: '50%'  
+                                }}
+                            />
+                        ) : (
+                            <FaUser style={{ 
+                                width: '80px', 
+                                height: '80px', 
+                                color: '#00ff84' 
+                            }} />
+                        )}
 
-        <button 
-            className={`icon-button ${isEditingPhoto ? 'close-photo-button' : 'camera-button'}`}
-            onClick={() => isEditingPhoto ? cancelEdit() : setIsEditingPhoto(true)}
-            title={isEditingPhoto ? "Close editing" : "Edit profile picture"}
-        >
-            {isEditingPhoto ? <FaTimes /> : <FaCamera />}
-        </button>
-    </div>
+                        <button 
+                            className={`icon-button ${isEditingPhoto ? 'close-photo-button' : 'camera-button'}`}
+                            onClick={() => isEditingPhoto ? cancelEdit() : setIsEditingPhoto(true)}
+                            title={isEditingPhoto ? "Close editing" : "Edit profile picture"}
+                        >
+                            {isEditingPhoto ? <FaTimes /> : <FaCamera />}
+                        </button>
+                    </div>
 
-    {isEditingPhoto && ( 
-        <div className="edit-controls">
-            <div className="file-input-container">
-                <input 
-                    type="file" 
-                    id="profile-upload"
-                    onChange={handleFileChange}
-                    accept="image/jpeg,image/png,image/gif,image/webp,image/bmp,image/tiff"
-                    className="file-input"
-                />
-                <label htmlFor="profile-upload" className="file-input-label">
-                    Choose Photo
-                </label>
-                {selectedFile && (
-                    <span className="selected-file">{selectedFile.name}</span>
-                )}
-            </div>
-            <div className="action-buttons">
-                {selectedFile && (
-                    <button 
-                        className="upload-button"
-                        onClick={handleUpload}
-                    >
-                        Upload
-                    </button>
-                )}
-                {user.profilePicture && (
-                    <button 
-                        className="delete-button"
-                        onClick={handleDelete}
-                    >
-                        <FaTrash /> Delete
-                    </button>
-                )}
-            </div>
-        </div>
-    )}
-</div>
+                    {isEditingPhoto && ( 
+                        <div className="edit-controls">
+                            <div className="file-input-container">
+                                <input 
+                                    type="file" 
+                                    id="profile-upload"
+                                    onChange={handleFileChange}
+                                    accept="image/jpeg,image/png,image/gif,image/webp,image/bmp,image/tiff"
+                                    className="file-input"
+                                />
+                                <label htmlFor="profile-upload" className="file-input-label">
+                                    Choose Photo
+                                </label>
+                                {selectedFile && (
+                                    <span className="selected-file">{selectedFile.name}</span>
+                                )}
+                            </div>
+                            <div className="action-buttons">
+                                {selectedFile && (
+                                    <button 
+                                        className="upload-button"
+                                        onClick={handleUpload}
+                                    >
+                                        Upload
+                                    </button>
+                                )}
+                                {user.profilePicture && (
+                                    <button 
+                                        className="delete-button"
+                                        onClick={handleDelete}
+                                    >
+                                        <FaTrash /> Delete
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    )}
+                </div>
 
                 {/* Move edit button here, right after profile-header */}
                 <div className="edit-button-container">

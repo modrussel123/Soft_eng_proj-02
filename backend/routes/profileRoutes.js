@@ -3,24 +3,11 @@ const User = require('../models/User');
 const router = express.Router();
 const authMiddleware = require('../middleware/auth');
 const multer = require('multer');
-const fs = require('fs');
 const path = require('path');
-
-const UPLOADS_DIR = path.join(__dirname, '../../uploads');
-if (!fs.existsSync(UPLOADS_DIR)) {
-    fs.mkdirSync(UPLOADS_DIR, { recursive: true });
-    console.log("✅ 'uploads/' directory created!");
-}
+const cloudinary = require('../config/cloudinary');
 
 //  Configure multer for file storage
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, UPLOADS_DIR); //  Save images in 'uploads/' folder
-    },
-    filename: (req, file, cb) => {
-        cb(null, req.user.userId + path.extname(file.originalname));
-    }
-});
+const storage = multer.memoryStorage();
 
 // Add allowed file types
 const ALLOWED_FILE_TYPES = [
@@ -77,35 +64,40 @@ router.get('/', authMiddleware, async (req, res) => {
 router.post('/upload-profile', authMiddleware, (req, res) => {
     upload.single('profilePicture')(req, res, async (err) => {
         try {
-            if (err instanceof multer.MulterError) {
-                if (err.code === 'LIMIT_FILE_SIZE') {
-                    return res.status(400).json({ error: 'File size cannot exceed 5MB' });
-                }
+            if (err) {
                 return res.status(400).json({ error: err.message });
-            } else if (err) {
-                return res.status(400).json({ 
-                    error: 'Invalid file type. Supported formats: JPG, PNG, GIF, WebP, BMP, TIFF' 
-                });
             }
 
             if (!req.file) {
                 return res.status(400).json({ error: "No file uploaded" });
             }
 
-            const filePath = `uploads/${req.file.filename}`;
+            // Convert buffer to base64
+            const b64 = Buffer.from(req.file.buffer).toString('base64');
+            const dataURI = `data:${req.file.mimetype};base64,${b64}`;
+
+            // Upload to Cloudinary
+            const result = await cloudinary.uploader.upload(dataURI, {
+                folder: 'profile-pictures',
+                width: 250,
+                height: 250,
+                crop: 'fill'
+            });
+
+            // Save Cloudinary URL to user profile
             const user = await User.findByIdAndUpdate(
                 req.user.userId,
-                { profilePicture: filePath },
+                { profilePicture: result.secure_url },
                 { new: true }
             );
 
-            if (!user) {
-                return res.status(404).json({ error: 'User not found' });
-            }
+            res.json({ 
+                message: "Profile picture updated", 
+                profilePicture: user.profilePicture 
+            });
 
-            res.json({ message: "Profile picture updated", profilePicture: user.profilePicture });
         } catch (error) {
-            console.error("Profile upload error:", error.message);
+            console.error("Profile upload error:", error);
             res.status(500).json({ error: error.message });
         }
     });
@@ -114,10 +106,22 @@ router.post('/upload-profile', authMiddleware, (req, res) => {
 // ✅ Delete profile picture
 router.delete('/delete-profile', authMiddleware, async (req, res) => {
     try {
-        const user = await User.findByIdAndUpdate(req.user.userId, { profilePicture: "" }, { new: true });
-        if (!user) return res.status(404).json({ error: 'User not found' });
+        const user = await User.findById(req.user.userId);
+        if (!user || !user.profilePicture) {
+            return res.status(404).json({ error: 'No profile picture found' });
+        }
 
-        res.json({ message: "Profile picture removed", profilePicture: user.profilePicture });
+        // Extract public_id from Cloudinary URL
+        const publicId = user.profilePicture.split('/').slice(-2).join('/').split('.')[0];
+        
+        // Delete from Cloudinary
+        await cloudinary.uploader.destroy(`profile-pictures/${publicId}`);
+
+        // Update user profile
+        user.profilePicture = "";
+        await user.save();
+
+        res.json({ message: "Profile picture removed", profilePicture: "" });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

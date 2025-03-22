@@ -7,9 +7,7 @@ function Home() {
     <div className="home-page">
       <div className="home-container">
         <div className="page-header">
-          <FaDumbbell className="header-icon" />
           <h2>Track Tech Fit</h2>
-          <FaDumbbell className="header-icon mirror" />
         </div>
         <div className="welcome-text">Welcome</div>
       </div>

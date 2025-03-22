@@ -133,3 +133,365 @@
     }
 }
 
+
+
+@media screen and (max-width: 768px) {
+    .achievements-container {
+        padding: 1rem 0;  
+    }
+
+    .achievements-card {
+        width: 90%;
+        margin: 0 auto;
+        padding: 1rem;
+    }
+
+    .achievements-header {
+        justify-content: center;
+        gap: 0.8rem;
+        padding-bottom: 0.8rem;
+    }
+
+    .achievements-header h2 {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+    }
+
+    
+
+    .achievements-workouts-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+        padding: 0.5rem;
+        justify-content: center;
+    }
+
+    .achievement-workout-item {
+        width: auto;
+        min-width: 120px;
+        max-width: 45%;
+        margin: 0;
+        padding: 0.8rem;
+        box-sizing: border-box;
+    }
+
+    .achievement-workout-item p {
+        font-size: 0.9rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .achievements-card {
+        width: 92%;
+        padding: 0.8rem;
+    }
+
+    .achievements-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .trophy-icon {
+        font-size: 1.5rem;
+    }
+
+    .achievement-workout-item {
+        padding: 0.7rem;
+    }
+
+    .achievement-workout-item p {
+        font-size: 0.8rem;
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+    .user-achievements-container {
+        padding: 1rem;
+    }
+
+    .user-achievements-card {
+        width: 95%;
+        padding: 1rem;
+        margin: 0 auto;
+    }
+
+    .user-achievements-header {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .user-achievements-header h2 {
+        font-size: 1.8rem;
+        letter-spacing: 2px;
+    }
+
+    .user-trophy-icon {
+        font-size: 1.8rem;
+    }
+
+    .user-workouts-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 1rem;
+        padding: 0.5rem;
+    }
+
+    .user-achievement-workout-card {
+        padding: 1rem;
+        min-height: auto;
+    }
+
+    .user-achievement-workout-card p {
+        font-size: 0.9rem;
+        margin: 0;
+        line-height: 1.4;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .user-achievements-container {
+        padding: 0.8rem;
+    }
+
+    .user-achievements-card {
+        width: 100%;
+        padding: 0.8rem;
+        border-radius: 15px;
+    }
+
+    .user-achievements-header h2 {
+        font-size: 1.5rem;
+        letter-spacing: 1px;
+    }
+
+    .user-trophy-icon {
+        font-size: 1.5rem;
+    }
+
+    .user-workouts-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 0.8rem;
+    }
+
+    .user-achievement- {
+        padding: 0.8rem;
+    }
+
+    .user-achievement-workout-card p {
+        font-size: 0.8rem;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .user-achievements-container {
+        padding: 0.5rem;
+    }
+
+    .user-achievements-card {
+        padding: 0.6rem;
+    }
+
+    .achievements-container {
+        padding: 0.5rem;
+    }
+
+    .achievements-card {
+        padding: 0.6rem;
+    }
+
+    .achievements-header {
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .achievements-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .trophy-icon {
+        font-size: 1.3rem;
+    }
+
+    .achievements-workouts-grid {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+    }
+
+    .achievement-workout-item {
+        padding: 0.7rem;
+        margin: 0.3rem 0;
+    }
+
+    .achievement-workout-item p {
+        font-size: 0.75rem;
+    }
+}
+
+.achievements-page {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #1B4332, #081C15 85%);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+}
+
+.achievements-main-container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0 0 50px rgba(0, 255, 132, 0.1);
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+}
+
+.achievements-section {
+    padding: 1.5rem;
+    border-radius: 20px;
+    margin-bottom: 0.75rem;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #00A951;
+    background: #1B4332;
+    width: 100%;
+}
+
+.achievements-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #00A951;
+}
+
+.achievements-header h2 {
+    color: #ffffff;
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px rgba(0, 255, 132, 0.5);
+    position: relative;
+    display: inline-block;
+}
+
+.trophy-icon {
+    font-size: 2rem;
+    color: #00A951;
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.achievement-card {
+    background: rgba(177, 167, 166, 0.25);
+    border-radius: 20px;
+    border: 1px solid #00A951;
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
+}
+
+.achievement-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-card p {
+    color: #ffffff;
+    margin: 0;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.loading-message {
+    text-align: center;
+    padding: 2rem;
+    color: #ffffff;
+    font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+    .achievements-main-container {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .achievements-section {
+        padding: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .achievements-header {
+        gap: 0.8rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .achievements-header h2 {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+    }
+
+    .trophy-icon {
+        font-size: 1.5rem;
+    }
+
+    .achievements-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 1rem;
+        padding: 0.5rem;
+    }
+
+    .achievement-card {
+        padding: 1rem;
+    }
+
+    .achievement-card p {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .achievements-main-container {
+        padding: 0.8rem;
+    }
+
+    .achievements-section {
+        padding: 0.8rem;
+    }
+
+    .achievements-header h2 {
+        font-size: 1.3rem;
+    }
+
+    .trophy-icon {
+        font-size: 1.3rem;
+    }
+
+    .achievements-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+
+    .achievement-card {
+        padding: 0.8rem;
+    }
+
+    .achievement-card p {
+        font-size: 0.75rem;
+    }
+}
+

@@ -1,4 +1,4 @@
-/* Cyberpunk Theme Variables */
+    /* Cyberpunk Theme Variables */
 :root {
     --neon-green: #00ff84;
     --dark-green: #00cc69;
@@ -1043,7 +1043,7 @@ input[type="time"] {
     }
     
     .fc {
-        min-height: 600px; /* Adjusted for mobile */
+        min-height: 600px; 
         background: rgba(177, 167, 166, 0.25) !important;
         width: 95%;
         padding: 1rem;
@@ -1084,7 +1084,7 @@ input[type="time"] {
     }
 
     .workout-list {
-        height: 300px; /* Smaller height on mobile */
+        height: 300px; 
         background: rgba(177, 167, 166, 0.25) !important;
         width: 95%;
         padding: 1rem;
@@ -1282,7 +1282,7 @@ input[type="time"] {
     }
 
     .workout-list {
-        height: 200px; /* Even smaller for very small screens */
+        height: 200px; 
         background: rgba(177, 167, 166, 0.25) !important;
         width: 95%;
         padding: 0.8rem;
@@ -1644,7 +1644,6 @@ input[type="time"] {
 }
 
 @media (max-width: 768px) {
-    /* Adjust workout list */
     .workout-list {
         width: 85% !important;
         max-width: none;
@@ -1753,8 +1752,8 @@ input[type="time"] {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
 }
 
 .fc-daygrid-event-harness::-webkit-scrollbar {
@@ -1770,26 +1769,26 @@ input[type="time"] {
 .fc-daygrid-event::before {
   content: '⟷ Swipe';
   position: absolute;
-  top: -18px; /* Increased from -15px */
+  top: -18px; 
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 169, 81, 1); /* Darker green background - removed transparency */
+  background: rgba(0, 169, 81, 1); 
   color: white;
-  padding: 4px 12px; /* Increased padding */
+  padding: 4px 12px;
   border-radius: 12px;
-  font-size: 0.75rem; /* Increased from 0.65rem */
+  font-size: 0.75rem; 
   z-index: 5;
   white-space: nowrap;
-  opacity: 1; /* Full opacity */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Added shadow for better visibility */
-  font-weight: bold; /* Added bold text */
+  opacity: 1; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+  font-weight: bold; 
 }
 
 .fc-event {
   scroll-snap-align: start;
   white-space: nowrap !important;
   overflow-x: visible !important;
-  margin-top: 20px !important; /* Increased from 15px to accommodate larger swipe button */
+  margin-top: 20px !important;
   position: relative;
   min-width: max-content;
 }
@@ -1797,14 +1796,14 @@ input[type="time"] {
 /* Mobile-specific adjustments */
 @media (max-width: 768px) {
   .fc-daygrid-event::before {
-    top: -16px; /* Slightly smaller on mobile but still larger than original */
-    padding: 3px 10px; /* Slightly smaller padding on mobile */
-    font-size: 0.7rem; /* Slightly smaller font on mobile */
-    background: rgba(0, 169, 81, 1); /* Keep the solid color on mobile */
+    top: -16px; 
+    padding: 3px 10px; 
+    font-size: 0.7rem; 
+    background: rgba(0, 169, 81, 1); 
   }
   
   .fc-event {
-    margin-top: 18px !important; /* Slightly reduced margin on mobile */
+    margin-top: 18px !important; 
   }
 }
 

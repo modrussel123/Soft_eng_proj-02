@@ -5,6 +5,8 @@ import { FaUser } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import "../styles/Friends.css";
 
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
 const NoProfilePicture = ({ name }) => (
     <div className="no-profile-picture">
         <FaUser 
@@ -19,13 +21,14 @@ const NoProfilePicture = ({ name }) => (
     </div>
 );
 
+// Update the FriendCard component
 const FriendCard = ({ friend, onRemove }) => {
     return (
         <div className="friend-card">
             <div className="friend-profile">
                 {friend.profilePicture ? (
                     <img 
-                        src={`http://localhost:5000/${friend.profilePicture}`}
+                        src={friend.profilePicture} 
                         alt={`${friend.firstName}'s profile`}
                         className="friend-profile-picture"
                     />
@@ -37,6 +40,12 @@ const FriendCard = ({ friend, onRemove }) => {
                 {friend.isPrivate ? (
                     <>
                         <div className="friend-details">
+                            <div className="info-row">
+                                <span className="info-label">Name:</span>
+                                <span className="info-value">
+                                    {friend.firstName} {friend.lastName}
+                                </span>
+                            </div>
                             <div className="info-row">
                                 <span className="info-label">Email:</span>
                                 <span className="info-value">{friend.email}</span>
@@ -106,6 +115,7 @@ const Friends = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [userEmail, setUserEmail] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
 
     const config = {
         headers: { Authorization: `Bearer ${token}` }
@@ -121,7 +131,7 @@ const Friends = () => {
         // Add token expiration check
         const checkTokenExpiration = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/friends/list', {
+                const response = await axios.get(`${API_URL}/api/friends/list`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
             } catch (error) {
@@ -155,91 +165,43 @@ const Friends = () => {
     }, []);
 
     useEffect(() => {
-        const getUserEmail = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/api/profile', config);
-                setUserEmail(response.data.email);
-            } catch (error) {
-                console.error('Error fetching user email:', error);
-            }
-        };
         getUserEmail();
     }, []);
 
     const fetchFriendRequests = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/friends/requests', config);
+            const { data } = await axios.get(`${API_URL}api/friends/requests`, config);
             setFriendRequests(data);
         } catch (error) {
-            if (error.response && error.response.status === 401) {
-                localStorage.removeItem('token');
-                navigate('/signin');
-            } else {
-                setError("Failed to fetch friend requests");
-            }
+            console.error('Failed to fetch friend requests:', error);
         }
     };
 
     const fetchSentRequests = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/api/friends/sent-requests', config);
+            const { data } = await axios.get(`${API_URL}api/friends/sent-requests`, config);
             setSentRequests(data);
         } catch (error) {
-            if (error.response && error.response.status === 401) {
-                localStorage.removeItem('token');
-                navigate('/signin');
-            } else {
-                setError("Failed to fetch sent requests");
-            }
+            console.error('Failed to fetch sent requests:', error);
         }
     };
 
     // Modify fetchFriends function
     const fetchFriends = async () => {
         try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                Swal.fire({
-                    title: '[ SESSION EXPIRED ]',
-                    text: 'Please sign in to view your friends',
-                    icon: 'warning',
-                    background: 'rgba(16, 16, 28, 0.95)',
-                    confirmButtonText: '< SIGN IN >',
-                    customClass: {
-                        popup: 'swal2-popup',
-                        title: 'swal2-title',
-                        confirmButton: 'swal2-confirm'
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        navigate('/signin');
-                    }
-                });
-                return;
-            }
-
-            const response = await axios.get('http://localhost:5000/api/friends/list', config);
-            setFriends(response.data);
+            const { data } = await axios.get(`${API_URL}api/friends/list`, config);
+            setFriends(data);
         } catch (error) {
-            if (error.response && error.response.status === 401) {
-                localStorage.removeItem('token');
-                Swal.fire({
-                    title: '[ SESSION EXPIRED ]',
-                    text: 'Your session has expired. Please sign in again.',
-                    icon: 'warning',
-                    background: 'rgba(16, 16, 28, 0.95)',
-                    confirmButtonText: '< SIGN IN >',
-                    customClass: {
-                        popup: 'swal2-popup',
-                        title: 'swal2-title',
-                        confirmButton: 'swal2-confirm'
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        navigate('/signin');
-                    }
-                });
-            }
+            console.error('Failed to fetch friends:', error);
+        }
+    };
+
+    const getUserEmail = async () => {
+        try {
+            const response = await axios.get(`${API_URL}api/profile`, config);
+            setUserEmail(response.data.email);
+        } catch (error) {
+            console.error('Error fetching user email:', error);
         }
     };
 
@@ -250,7 +212,7 @@ const Friends = () => {
 
         try {
             const { data } = await axios.get(
-                `http://localhost:5000/api/friends/search?email=${searchEmail}`,
+                `${API_URL}api/friends/search?email=${searchEmail}`,
                 config
             );
 
@@ -318,7 +280,7 @@ const Friends = () => {
 
             if (result.isConfirmed) {
                 const { data } = await axios.post(
-                    'http://localhost:5000/api/friends/request',
+                    `${API_URL}api/friends/request`,
                     { receiverEmail: searchResult.email },
                     config
                 );
@@ -372,7 +334,7 @@ const Friends = () => {
             if (result.isConfirmed) {
                 try {
                     await axios.post(
-                        `http://localhost:5000/api/friends/${action}`,
+                        `${API_URL}api/friends/${action}`,
                         { requestId },
                         config
                     );
@@ -428,7 +390,7 @@ const Friends = () => {
             if (result.isConfirmed) {
                 try {
                     await axios.post(
-                        'http://localhost:5000/api/friends/cancel-request',
+                        `${API_URL}api/friends/cancel-request`,
                         { receiverEmail },
                         config
                     );
@@ -465,6 +427,7 @@ const Friends = () => {
         }
     };
 
+    // Update the button colors in the SweetAlert configuration
     const removeFriend = async (friendEmail) => {
         try {
             const result = await Swal.fire({
@@ -475,8 +438,8 @@ const Friends = () => {
                 confirmButtonText: '< REMOVE >',
                 cancelButtonText: '< CANCEL >',
                 background: 'rgba(16, 16, 28, 0.95)',
-                confirmButtonColor: '#ff0000',
-                cancelButtonColor: '#00ff84',
+                confirmButtonColor: '#ff4444', // Red for remove
+                cancelButtonColor: '#00ff84', // Green for cancel
                 backdrop: `
                     rgba(0,0,0,0.8)
                     url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23f00' fill-opacity='0.1'%3E%3Cpath d='M20 40h10v20H20zM15 45h20v10H15zM10 48h30v4H10z'/%3E%3Cpath d='M60 45h30v10H60zM65 40h5v20h-5zM80 40h5v20h-5zM20 5c0 8.284-6.716 15-15 15v5c11.046 0 20-8.954 20-20h-5z'/%3E%3C/g%3E%3C/svg%3E")
@@ -486,7 +449,7 @@ const Friends = () => {
             if (result.isConfirmed) {
                 const token = localStorage.getItem('token');
                 await axios.post(
-                    'http://localhost:5000/api/friends/remove',
+                    `${API_URL}api/friends/remove`,
                     { friendEmail },
                     {
                         headers: {
@@ -529,7 +492,7 @@ const Friends = () => {
     useEffect(() => {
         const fetchFriends = async () => {
             try {
-                const { data } = await axios.get('http://localhost:5000/api/friends/list', config);
+                const { data } = await axios.get(`${API_URL}api/friends/list`, config);
                 setFriends(data);
             } catch (error) {
                 console.error('Failed to fetch friends:', error);
@@ -538,6 +501,21 @@ const Friends = () => {
 
         fetchFriends();
     }, []);
+
+    // Filter friends based on search query
+    const filteredFriends = friends.filter(friend => {
+        const searchLower = searchQuery.toLowerCase();
+        const fullName = `${friend.firstName} ${friend.lastName}`.toLowerCase();
+        return friend.email.toLowerCase().includes(searchLower) ||
+               fullName.includes(searchLower) ||
+               friend.firstName.toLowerCase().includes(searchLower) ||
+               friend.lastName.toLowerCase().includes(searchLower);
+    });
+
+    // Clear search handler
+    const handleClearSearch = () => {
+        setSearchQuery('');
+    };
 
     return (
         <div className="friends-page">
@@ -565,7 +543,7 @@ const Friends = () => {
                             <div className="user-card">
                                 {searchResult.profilePicture ? (
                                     <img
-                                        src={`http://localhost:5000/${searchResult.profilePicture}`}
+                                        src={searchResult.profilePicture} 
                                         alt="Profile"
                                         className="profile-picture"
                                     />
@@ -649,7 +627,7 @@ const Friends = () => {
                                     <div key={request._id} className="request-card">
                                         {request.sender?.profilePicture ? (
                                             <img
-                                                src={`http://localhost:5000/${request.sender.profilePicture}`}
+                                                src={request.sender.profilePicture} 
                                                 alt="Profile"
                                                 className="profile-picture"
                                             />
@@ -690,7 +668,7 @@ const Friends = () => {
                                     <div key={request._id} className="request-card">
                                         {request.receiver?.profilePicture ? (
                                             <img
-                                                src={`http://localhost:5000/${request.receiver.profilePicture}`}
+                                                src={request.receiver.profilePicture} 
                                                 alt="Profile"
                                                 className="profile-picture"
                                             />
@@ -718,11 +696,31 @@ const Friends = () => {
 
                 <div className="friends-list-section">
                     <h2>My Friends</h2>
+                    
+                    {/* Add search container */}
+                    <div className="friends-search-container">
+                        <input
+                            type="text"
+                            placeholder="Search friends by name or email..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="friends-search-input"
+                        />
+                        {searchQuery && (
+                            <button 
+                                onClick={handleClearSearch}
+                                className="clear-search-button"
+                            >
+                                Clear
+                            </button>
+                        )}
+                    </div>
+
                     {friends.length === 0 ? (
                         <p>No friends yet</p>
                     ) : (
                         <div className="friends-grid">
-                            {friends.map(friend => (
+                            {filteredFriends.map(friend => (
                                 <FriendCard 
                                     key={friend._id} 
                                     friend={friend}

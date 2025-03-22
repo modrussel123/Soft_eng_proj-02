@@ -46,6 +46,204 @@
 
 .workout-card {
     width: 100%;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.workout-card.completed {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+}
+
+.workout-content {
+    margin-bottom: 15px;
+}
+
+.completed-text {
+    color: #6c757d;
+}
+
+.completed-text h3,
+.completed-text p,
+.completed-text .workout-details span {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.workout-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+/* Desktop styles for workout action buttons */
+.workout-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    padding: 15px 0;
+    width: 100%;
+}
+
+.workout-actions button {
+    min-width: 120px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    width: auto;
+    max-width: 180px;
+    box-sizing: border-box;
+}
+
+.button-edit,
+.button-complete,
+.button-delete {
+    display: flex;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.button-edit,
+.button-delete,
+.button-complete {
+    width: 200px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    padding: 0 20px;
+    cursor: pointer;
+    margin: 0 auto;
+}
+
+.button-edit {
+    background-color: #4361ee;
+    color: white;
+}
+
+.button-complete {
+    background: linear-gradient(45deg, #2ecc71, #27ae60);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 24px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 120px;
+    max-width: 180px;
+    width: auto;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+    margin: 0 auto;
+}
+
+.button-complete:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.button-complete:hover:not(:disabled):before {
+    left: 100%;
+}
+
+.button-complete:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+    background: linear-gradient(45deg, #27ae60, #2ecc71);
+}
+
+.button-complete:active:not(:disabled) {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(46, 204, 113, 0.3);
+}
+
+.button-complete:disabled {
+    background: #95a5a6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.button-delete {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.button-edit:hover { background-color: #3651d1; }
+.button-complete:hover { background-color: #27ae60; }
+.button-delete:hover { background-color: #c0392b; }
+
+.completed-badge {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 16px;
+    background-color: #2ecc71;
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.workout-card.completed .workout-actions button {
+    opacity: 0.7;
+}
+
+.page-header h1 {
+    font-size: 28px;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    animation: textGlow 2s infinite alternate;
+}
+
+.cards-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 0;
+}
+
+.workout-card {
+    width: 100%;
     background: rgba(177, 167, 166, 0.25) !important;
     border: 2px solid #00A951 !important;
     border-radius: 20px !important;
@@ -1707,5 +1905,310 @@
 
     .detail-box span:first-child {
         color: #00A951;         font-size: 0.65rem;
+    }
+}
+
+.workout-card.completed {
+    border: 2px solid #2ecc71;
+    position: relative;
+    background: linear-gradient(
+        rgba(46, 204, 113, 0.05),
+        rgba(46, 204, 113, 0.02)
+    );
+}
+
+.completed-badge {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    background: #2ecc71;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 2px 10px rgba(46, 204, 113, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .workout-actions {
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px 0;
+    }
+
+    .workout-actions button {
+        width: 100%;
+        min-width: unset;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+
+    .button-complete {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .completed-badge {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-bottom: 10px;
+        justify-content: center;
+    }
+}
+
+.completion-modal {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+}
+
+.completion-modal h3 {
+    color: #2c3e50;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.completion-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.completion-confirm {
+    background: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.completion-cancel {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 24px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 480px) {
+    .completion-modal {
+        padding: 20px;
+        width: 95%;
+    }
+
+    .completion-actions {
+        flex-direction: column;
+    }
+
+    .completion-confirm,
+    .completion-cancel {
+        width: 100%;
+        padding: 16px 24px;
+    }
+}
+
+.completed-workout {
+    position: relative;
+}
+
+.completed-workout::after {
+    content: '✓ COMPLETED';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #00A951;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.workout-card.completed {
+    opacity: 0.8;
+    border-color: #00A951;
+    position: relative;
+}
+
+.workout-card.completed .workout-content {
+    position: relative;
+}
+
+.workout-card.completed .workout-content::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 169, 81, 0.1);
+    pointer-events: none;
+}
+
+.workout-card.completed h3,
+.workout-card.completed .card-category,
+.workout-card.completed .workout-details,
+.workout-card.completed .description-box {
+    text-decoration: line-through;
+    text-decoration-color: #00A951;
+    text-decoration-thickness: 2px;
+}
+
+.completion-modal {
+    background: linear-gradient(145deg, #1B4332, #2D6A4F);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 400px;
+    text-align: center;
+    border: 2px solid #00A951;
+    box-shadow: 0 0 30px rgba(0, 169, 81, 0.2);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+.completion-modal h3 {
+    color: #00ff84;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.completion-modal p {
+    color: white;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.completion-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.completion-confirm {
+    background: #00A951;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.completion-cancel {
+    background: #B22222;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Update the confirm modal styles */
+.confirm-modal {
+    background: linear-gradient(145deg, #1B4332, #2D6A4F);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 400px;
+    text-align: center;
+    border: 2px solid #00A951;
+    box-shadow: 0 0 30px rgba(0, 169, 81, 0.2);
+    animation: modalSlideIn 0.3s ease-out;
+}
+
+.confirm-modal p {
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.confirm-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Update the button styles for better text alignment */
+.button-edit, 
+.button-delete, 
+.button-save, 
+.button-cancel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+}
+
+/* Specific styles for confirm modal buttons */
+.confirm-actions .button-delete {
+    order: 1;
+}
+
+.confirm-actions .button-cancel {
+    order: 2;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+    .confirm-modal {
+        width: 90%;
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+
+    .confirm-modal p {
+        font-size: 1rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .confirm-actions {
+        gap: 0.8rem;
     }
 }

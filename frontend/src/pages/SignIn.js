@@ -4,6 +4,8 @@ import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import '../styles/Signin.css';
 
+const API_URL = process.env.REACT_APP_BACKEND_URL;
+
 function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,7 +15,7 @@ function SignIn() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-        const response = await fetch('http://localhost:5000/api/auth/signin', {
+        const response = await fetch(`${API_URL}api/auth/signin`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })

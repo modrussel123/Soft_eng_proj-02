@@ -72,6 +72,8 @@ const WorkoutSchedule = () => {
         message: ""
     });
 
+    const API_URL = process.env.REACT_APP_BACKEND_URL;
+
     useEffect(() => {
         fetchWorkouts();
     }, []);
@@ -111,7 +113,7 @@ const WorkoutSchedule = () => {
                 return;
             }
 
-            const response = await axios.get('http://localhost:5000/api/workout-schedule', {
+            const response = await axios.get(`${API_URL}api/workout-schedule`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setWorkouts(response.data);
@@ -231,13 +233,13 @@ const WorkoutSchedule = () => {
             };
 
             if (isEditing) {
-                await axios.put(`http://localhost:5000/api/workout-schedule/edit/${workoutId}`, 
+                await axios.put(`${API_URL}api/workout-schedule/edit/${workoutId}`, 
                     workoutData,
                     { headers: { Authorization: `Bearer ${token}` }}
                 );
                 showToast("Workout updated successfully!", "success");
             } else {
-                await axios.post('http://localhost:5000/api/workout-schedule/add', 
+                await axios.post(`${API_URL}api/workout-schedule/add`, 
                     workoutData,
                     { headers: { Authorization: `Bearer ${token}` }}
                 );
@@ -283,7 +285,7 @@ const WorkoutSchedule = () => {
     const confirmDelete = async (id) => {
         try {
             const token = localStorage.getItem("token");
-            await axios.delete(`http://localhost:5000/api/workout-schedule/delete/${id}`, {
+            await axios.delete(`${API_URL}api/workout-schedule/delete/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             

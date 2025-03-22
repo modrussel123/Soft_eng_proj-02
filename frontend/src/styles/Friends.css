@@ -370,7 +370,6 @@
     background-color: #ff0000 !important;
     border-color: #ff0000 !important;
     color: white !important;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.3) !important;
 }
 
 .swal2-popup[class*="cancel-request"] .swal2-confirm:hover {
@@ -2952,6 +2951,265 @@
 @media (max-width: 768px) {
     .search-result .user-card.own-profile {
         padding: 1rem;
+    }
+}
+
+/* Add search container styles */
+.friends-search-container {
+    margin-bottom: 2rem;
+    width: 100%;
+    display: flex;
+    gap: 1rem;
+    padding: 0 1rem;
+}
+
+.friends-search-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #00A951;
+    background: rgba(177, 167, 166, 0.25);
+    color: #ffffff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.friends-search-input:focus {
+    outline: none;
+    border-color: #00ff84;
+    box-shadow: 0 0 10px rgba(0, 255, 132, 0.3);
+}
+
+.friends-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.clear-search-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    border: 1px solid #00A951;
+    background: rgba(0, 169, 81, 0.2);
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    min-width: 80px;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+    .friends-search-container {
+        padding: 0 0.5rem;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .friends-search-input {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .clear-search-button {
+        padding: 0.5rem 1rem;
+        min-width: 60px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .friends-search-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .clear-search-button {
+        width: 100%;
+        padding: 0.5rem;
+    }
+}
+
+/* Mobile-specific SweetAlert button fixes */
+@media (max-width: 768px) {
+    .swal2-popup {
+        width: 90% !important;
+        max-width: 400px !important;
+        padding: 1rem !important;
+    }
+
+    .swal2-actions {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+        padding: 0.5rem !important;
+        width: 100% !important;
+    }
+
+    .swal2-confirm,
+    .swal2-cancel {
+        width: 100% !important;
+        max-width: 280px !important;
+        height: 40px !important;
+        padding: 0 1rem !important;
+        margin: 0.25rem auto !important;
+        font-size: 0.85rem !important;
+        white-space: nowrap !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        line-height: 1 !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .swal2-confirm,
+    .swal2-cancel {
+        max-width: 240px !important;
+        height: 35px !important;
+        font-size: 0.8rem !important;
+        padding: 0 0.5rem !important;
+    }
+}
+
+.swal2-popup[class*="cancel-request"] .swal2-confirm,
+.swal2-popup[class*="cancel-request"] .swal2-cancel {
+    background: transparent !important;
+    padding: 0.75rem 1.5rem !important;
+    border: 2px solid !important;
+    font-family: 'Orbitron', sans-serif !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    transition: all 0.3s ease !important;
+    margin: 0.5rem !important;
+    min-width: 150px !important;
+}
+
+/* Cancel Request button */
+.swal2-popup[class*="cancel-request"] .swal2-confirm {
+    border-color: #ff4444 !important;
+    color: #ff4444 !important;
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.3) !important;
+    text-shadow: 0 0 5px rgba(255, 68, 68, 0.3) !important;
+}
+
+.swal2-popup[class*="cancel-request"] .swal2-confirm:hover {
+    background: #ff4444 !important;
+    color: #000000 !important;
+    box-shadow: 0 0 20px rgba(255, 68, 68, 0.5) !important;
+}
+
+.swal2-popup[class*="cancel-request"] .swal2-cancel {
+    border-color: #00ff84 !important;
+    color: #00ff84 !important;
+    box-shadow: 0 0 10px rgba(0, 255, 132, 0.3) !important;
+    text-shadow: 0 0 5px rgba(0, 255, 132, 0.3) !important;
+}
+
+.swal2-popup[class*="cancel-request"] .swal2-cancel:hover {
+    background: #00ff84 !important;
+    color: #000000 !important;
+    box-shadow: 0 0 20px rgba(0, 255, 132, 0.5) !important;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+    .swal2-popup[class*="cancel-request"] .swal2-confirm,
+    .swal2-popup[class*="cancel-request"] .swal2-cancel {
+        width: 100% !important;
+        max-width: 280px !important;
+        padding: 0.5rem 1rem !important;
+        font-size: 0.9rem !important;
+        margin: 0.25rem auto !important;
+    }
+}
+
+.friends-list-section .friends-search-container {
+    width: 100%;
+    padding: 0 1.5rem;
+    margin: 1rem auto;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .friends-list-section .friends-search-container {
+        padding: 0 1rem;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .friends-list-section .search-input {
+        width: 100%;
+        padding: 0.75rem;
+    }
+
+    .friends-list-section .clear-search-button {
+        width: 100%;
+        max-width: 280px;
+        margin: 0.5rem auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .friends-list-section .friends-search-container {
+        padding: 0 0.75rem;
+    }
+}
+
+.friends-list-section .friends-search-container {
+    width: calc(100% - 3rem);  
+    padding: 0;
+    margin: 1rem auto;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.friends-search-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    border: 1px solid #00A951;
+    background: rgba(177, 167, 166, 0.25);
+    color: #ffffff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.clear-search-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    border: 1px solid #00A951;
+    background: rgba(0, 169, 81, 0.2);
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 120px;  /* Fixed width */
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+    .friends-list-section .friends-search-container {
+        width: calc(100% - 2rem);  /* Adjusted for mobile padding */
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .friends-search-input,
+    .clear-search-button {
+        width: 100%;
+        padding: 0.75rem;
+    }
+
+    .clear-search-button {
+        margin: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .friends-list-section .friends-search-container {
+        width: calc(100% - 1.5rem);  /* Further adjusted for smaller screens */
     }
 }
 
